@@ -98,21 +98,5 @@ public class DB {
                 this.senha);
     }
     
-    public static void main(String[] args) {
-        
-        try {
-            DB banco = new DB();
-                
-//            banco.createDB();
-            
-            File arq = new File("src\\database\\Tabelas.sql");
-            
-            banco.createTable(arq.readFile());
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Falha ao se conectar ao driver " + ex.getMessage());
-        } catch (SQLException ex) {
-            System.out.println("Falha na criação do DB " + ex.getMessage());
-        }
-
-    }
+    
 }
