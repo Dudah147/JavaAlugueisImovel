@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package logicos;
+package logico;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author dudam
  */
 public class File {
-    private String nomeArq;
+     private String nomeArq;
     private BufferedReader arqLeitura;
     private BufferedWriter arqSaida;
     
@@ -61,6 +61,4 @@ public class File {
         
         return listSql;
     }
-    
-    
 }

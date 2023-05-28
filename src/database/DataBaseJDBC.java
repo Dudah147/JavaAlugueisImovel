@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logicos.File;
-
 /**
  *
  * @author dudam
  */
-public class DB {
-    private String driver;
+public class DataBaseJDBC {
+     private String driver;
     private String banco;
     private String user;
     private String senha;
@@ -26,7 +25,7 @@ public class DB {
     private Connection con;
     private boolean flagDB = false;
     
-    public DB(String driver, String banco, String user,
+    public DataBaseJDBC(String driver, String banco, String user,
             String senha, String url) throws ClassNotFoundException {
         this.driver = driver;
         this.banco = banco;
@@ -36,7 +35,7 @@ public class DB {
         Class.forName(driver); // carregando o driver do banco
     }
     
-    public DB() throws ClassNotFoundException {
+    public DataBaseJDBC() throws ClassNotFoundException {
         this("com.mysql.cj.jdbc.Driver",
                 "LPOO", "root", "",
                 "jdbc:mysql://localhost/");
@@ -97,6 +96,4 @@ public class DB {
         this.con = DriverManager.getConnection(this.url, this.user,
                 this.senha);
     }
-    
-    
 }

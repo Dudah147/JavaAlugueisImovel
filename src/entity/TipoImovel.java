@@ -20,15 +20,15 @@ import javax.persistence.Table;
 
 /**
  *
- * @author a2319217
+ * @author dudam
  */
 @Entity
 @Table(name = "tipoimovel")
 @NamedQueries({
-    @NamedQuery(name = "TipoImovel.findAll", query = "SELECT t FROM TipoImovel t"),
-    @NamedQuery(name = "TipoImovel.findByIdTipoImovel", query = "SELECT t FROM TipoImovel t WHERE t.idTipoImovel = :idTipoImovel"),
-    @NamedQuery(name = "TipoImovel.findByDescricao", query = "SELECT t FROM TipoImovel t WHERE t.descricao = :descricao")})
-public class TipoImovel implements Serializable {
+    @NamedQuery(name = "Tipoimovel.findAll", query = "SELECT t FROM Tipoimovel t"),
+    @NamedQuery(name = "Tipoimovel.findByIdTipoImovel", query = "SELECT t FROM Tipoimovel t WHERE t.idTipoImovel = :idTipoImovel"),
+    @NamedQuery(name = "Tipoimovel.findByDescricao", query = "SELECT t FROM Tipoimovel t WHERE t.descricao = :descricao")})
+public class Tipoimovel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,14 +42,14 @@ public class TipoImovel implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoImovel")
     private Collection<Imovel> imovelCollection;
 
-    public TipoImovel() {
+    public Tipoimovel() {
     }
 
-    public TipoImovel(Integer idTipoImovel) {
+    public Tipoimovel(Integer idTipoImovel) {
         this.idTipoImovel = idTipoImovel;
     }
 
-    public TipoImovel(Integer idTipoImovel, String descricao) {
+    public Tipoimovel(Integer idTipoImovel, String descricao) {
         this.idTipoImovel = idTipoImovel;
         this.descricao = descricao;
     }
@@ -88,10 +88,10 @@ public class TipoImovel implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoImovel)) {
+        if (!(object instanceof Tipoimovel)) {
             return false;
         }
-        TipoImovel other = (TipoImovel) object;
+        Tipoimovel other = (Tipoimovel) object;
         if ((this.idTipoImovel == null && other.idTipoImovel != null) || (this.idTipoImovel != null && !this.idTipoImovel.equals(other.idTipoImovel))) {
             return false;
         }
@@ -100,7 +100,7 @@ public class TipoImovel implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.TipoImovel[ idTipoImovel=" + idTipoImovel + " ]";
+        return "entity.Tipoimovel[ idTipoImovel=" + idTipoImovel + " ]";
     }
     
 }

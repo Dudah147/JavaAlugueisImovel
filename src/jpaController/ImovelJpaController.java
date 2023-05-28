@@ -10,7 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import entity.TipoImovel;
+import entity.Tipoimovel;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +18,7 @@ import jpaController.exceptions.NonexistentEntityException;
 
 /**
  *
- * @author a2319217
+ * @author dudam
  */
 public class ImovelJpaController implements Serializable {
 
@@ -36,7 +36,7 @@ public class ImovelJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TipoImovel idTipoImovel = imovel.getIdTipoImovel();
+            Tipoimovel idTipoImovel = imovel.getIdTipoImovel();
             if (idTipoImovel != null) {
                 idTipoImovel = em.getReference(idTipoImovel.getClass(), idTipoImovel.getIdTipoImovel());
                 imovel.setIdTipoImovel(idTipoImovel);
@@ -60,8 +60,8 @@ public class ImovelJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Imovel persistentImovel = em.find(Imovel.class, imovel.getIdImovel());
-            TipoImovel idTipoImovelOld = persistentImovel.getIdTipoImovel();
-            TipoImovel idTipoImovelNew = imovel.getIdTipoImovel();
+            Tipoimovel idTipoImovelOld = persistentImovel.getIdTipoImovel();
+            Tipoimovel idTipoImovelNew = imovel.getIdTipoImovel();
             if (idTipoImovelNew != null) {
                 idTipoImovelNew = em.getReference(idTipoImovelNew.getClass(), idTipoImovelNew.getIdTipoImovel());
                 imovel.setIdTipoImovel(idTipoImovelNew);
@@ -104,7 +104,7 @@ public class ImovelJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The imovel with id " + id + " no longer exists.", enfe);
             }
-            TipoImovel idTipoImovel = imovel.getIdTipoImovel();
+            Tipoimovel idTipoImovel = imovel.getIdTipoImovel();
             if (idTipoImovel != null) {
                 idTipoImovel.getImovelCollection().remove(imovel);
                 idTipoImovel = em.merge(idTipoImovel);

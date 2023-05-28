@@ -10,7 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entity.Imovel;
-import entity.TipoImovel;
+import entity.Tipoimovel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,11 +21,11 @@ import jpaController.exceptions.NonexistentEntityException;
 
 /**
  *
- * @author a2319217
+ * @author dudam
  */
-public class TipoImovelJpaController implements Serializable {
+public class TipoimovelJpaController implements Serializable {
 
-    public TipoImovelJpaController(EntityManagerFactory emf) {
+    public TipoimovelJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -34,24 +34,24 @@ public class TipoImovelJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(TipoImovel tipoImovel) {
-        if (tipoImovel.getImovelCollection() == null) {
-            tipoImovel.setImovelCollection(new ArrayList<Imovel>());
+    public void create(Tipoimovel tipoimovel) {
+        if (tipoimovel.getImovelCollection() == null) {
+            tipoimovel.setImovelCollection(new ArrayList<Imovel>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Collection<Imovel> attachedImovelCollection = new ArrayList<Imovel>();
-            for (Imovel imovelCollectionImovelToAttach : tipoImovel.getImovelCollection()) {
+            for (Imovel imovelCollectionImovelToAttach : tipoimovel.getImovelCollection()) {
                 imovelCollectionImovelToAttach = em.getReference(imovelCollectionImovelToAttach.getClass(), imovelCollectionImovelToAttach.getIdImovel());
                 attachedImovelCollection.add(imovelCollectionImovelToAttach);
             }
-            tipoImovel.setImovelCollection(attachedImovelCollection);
-            em.persist(tipoImovel);
-            for (Imovel imovelCollectionImovel : tipoImovel.getImovelCollection()) {
-                TipoImovel oldIdTipoImovelOfImovelCollectionImovel = imovelCollectionImovel.getIdTipoImovel();
-                imovelCollectionImovel.setIdTipoImovel(tipoImovel);
+            tipoimovel.setImovelCollection(attachedImovelCollection);
+            em.persist(tipoimovel);
+            for (Imovel imovelCollectionImovel : tipoimovel.getImovelCollection()) {
+                Tipoimovel oldIdTipoImovelOfImovelCollectionImovel = imovelCollectionImovel.getIdTipoImovel();
+                imovelCollectionImovel.setIdTipoImovel(tipoimovel);
                 imovelCollectionImovel = em.merge(imovelCollectionImovel);
                 if (oldIdTipoImovelOfImovelCollectionImovel != null) {
                     oldIdTipoImovelOfImovelCollectionImovel.getImovelCollection().remove(imovelCollectionImovel);
@@ -66,14 +66,14 @@ public class TipoImovelJpaController implements Serializable {
         }
     }
 
-    public void edit(TipoImovel tipoImovel) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Tipoimovel tipoimovel) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TipoImovel persistentTipoImovel = em.find(TipoImovel.class, tipoImovel.getIdTipoImovel());
-            Collection<Imovel> imovelCollectionOld = persistentTipoImovel.getImovelCollection();
-            Collection<Imovel> imovelCollectionNew = tipoImovel.getImovelCollection();
+            Tipoimovel persistentTipoimovel = em.find(Tipoimovel.class, tipoimovel.getIdTipoImovel());
+            Collection<Imovel> imovelCollectionOld = persistentTipoimovel.getImovelCollection();
+            Collection<Imovel> imovelCollectionNew = tipoimovel.getImovelCollection();
             List<String> illegalOrphanMessages = null;
             for (Imovel imovelCollectionOldImovel : imovelCollectionOld) {
                 if (!imovelCollectionNew.contains(imovelCollectionOldImovel)) {
@@ -92,14 +92,14 @@ public class TipoImovelJpaController implements Serializable {
                 attachedImovelCollectionNew.add(imovelCollectionNewImovelToAttach);
             }
             imovelCollectionNew = attachedImovelCollectionNew;
-            tipoImovel.setImovelCollection(imovelCollectionNew);
-            tipoImovel = em.merge(tipoImovel);
+            tipoimovel.setImovelCollection(imovelCollectionNew);
+            tipoimovel = em.merge(tipoimovel);
             for (Imovel imovelCollectionNewImovel : imovelCollectionNew) {
                 if (!imovelCollectionOld.contains(imovelCollectionNewImovel)) {
-                    TipoImovel oldIdTipoImovelOfImovelCollectionNewImovel = imovelCollectionNewImovel.getIdTipoImovel();
-                    imovelCollectionNewImovel.setIdTipoImovel(tipoImovel);
+                    Tipoimovel oldIdTipoImovelOfImovelCollectionNewImovel = imovelCollectionNewImovel.getIdTipoImovel();
+                    imovelCollectionNewImovel.setIdTipoImovel(tipoimovel);
                     imovelCollectionNewImovel = em.merge(imovelCollectionNewImovel);
-                    if (oldIdTipoImovelOfImovelCollectionNewImovel != null && !oldIdTipoImovelOfImovelCollectionNewImovel.equals(tipoImovel)) {
+                    if (oldIdTipoImovelOfImovelCollectionNewImovel != null && !oldIdTipoImovelOfImovelCollectionNewImovel.equals(tipoimovel)) {
                         oldIdTipoImovelOfImovelCollectionNewImovel.getImovelCollection().remove(imovelCollectionNewImovel);
                         oldIdTipoImovelOfImovelCollectionNewImovel = em.merge(oldIdTipoImovelOfImovelCollectionNewImovel);
                     }
@@ -109,9 +109,9 @@ public class TipoImovelJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = tipoImovel.getIdTipoImovel();
-                if (findTipoImovel(id) == null) {
-                    throw new NonexistentEntityException("The tipoImovel with id " + id + " no longer exists.");
+                Integer id = tipoimovel.getIdTipoImovel();
+                if (findTipoimovel(id) == null) {
+                    throw new NonexistentEntityException("The tipoimovel with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -127,25 +127,25 @@ public class TipoImovelJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TipoImovel tipoImovel;
+            Tipoimovel tipoimovel;
             try {
-                tipoImovel = em.getReference(TipoImovel.class, id);
-                tipoImovel.getIdTipoImovel();
+                tipoimovel = em.getReference(Tipoimovel.class, id);
+                tipoimovel.getIdTipoImovel();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The tipoImovel with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The tipoimovel with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<Imovel> imovelCollectionOrphanCheck = tipoImovel.getImovelCollection();
+            Collection<Imovel> imovelCollectionOrphanCheck = tipoimovel.getImovelCollection();
             for (Imovel imovelCollectionOrphanCheckImovel : imovelCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TipoImovel (" + tipoImovel + ") cannot be destroyed since the Imovel " + imovelCollectionOrphanCheckImovel + " in its imovelCollection field has a non-nullable idTipoImovel field.");
+                illegalOrphanMessages.add("This Tipoimovel (" + tipoimovel + ") cannot be destroyed since the Imovel " + imovelCollectionOrphanCheckImovel + " in its imovelCollection field has a non-nullable idTipoImovel field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            em.remove(tipoImovel);
+            em.remove(tipoimovel);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -154,19 +154,19 @@ public class TipoImovelJpaController implements Serializable {
         }
     }
 
-    public List<TipoImovel> findTipoImovelEntities() {
-        return findTipoImovelEntities(true, -1, -1);
+    public List<Tipoimovel> findTipoimovelEntities() {
+        return findTipoimovelEntities(true, -1, -1);
     }
 
-    public List<TipoImovel> findTipoImovelEntities(int maxResults, int firstResult) {
-        return findTipoImovelEntities(false, maxResults, firstResult);
+    public List<Tipoimovel> findTipoimovelEntities(int maxResults, int firstResult) {
+        return findTipoimovelEntities(false, maxResults, firstResult);
     }
 
-    private List<TipoImovel> findTipoImovelEntities(boolean all, int maxResults, int firstResult) {
+    private List<Tipoimovel> findTipoimovelEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(TipoImovel.class));
+            cq.select(cq.from(Tipoimovel.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -178,20 +178,20 @@ public class TipoImovelJpaController implements Serializable {
         }
     }
 
-    public TipoImovel findTipoImovel(Integer id) {
+    public Tipoimovel findTipoimovel(Integer id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(TipoImovel.class, id);
+            return em.find(Tipoimovel.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getTipoImovelCount() {
+    public int getTipoimovelCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<TipoImovel> rt = cq.from(TipoImovel.class);
+            Root<Tipoimovel> rt = cq.from(Tipoimovel.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

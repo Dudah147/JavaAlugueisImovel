@@ -4,38 +4,38 @@
  */
 package DAO;
 
-import entity.Tipoimovel;
+import entity.Imovel;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import jpaController.TipoimovelJpaController;
+import jpaController.ImovelJpaController;
 import jpaController.exceptions.IllegalOrphanException;
 import jpaController.exceptions.NonexistentEntityException;
-import jpaController.exceptions.PreexistingEntityException;
 
 /**
  *
  * @author dudam
  */
-public class TipoimovelDAO {
-    private TipoimovelJpaController objetoJPA;
+public class ImovelDAO {
+    private ImovelJpaController objetoJPA;
     private EntityManagerFactory emf;
 
-    public TipoimovelDAO() {
+    public ImovelDAO() {
         emf = Persistence.createEntityManagerFactory("ProjetoJavaAluguelImovelPU");
-        objetoJPA = new TipoimovelJpaController(emf);
+        objetoJPA = new ImovelJpaController(emf);
     }
     
-    public void add(Tipoimovel objeto) throws Exception{
+    public void add(Imovel objeto) throws Exception{
 
         objetoJPA.create(objeto);
     }
 
-    public void edit(Tipoimovel objeto) throws Exception{
+    public void edit(Imovel objeto) throws Exception{
         try {
             objetoJPA.edit(objeto);
         } catch (NonexistentEntityException ex) {
-            throw new Exception("Tipoimovel " + objeto + " não existe.", ex);
+            throw new Exception("Imovel " + objeto + " não existe.", ex);
         }
     }
 
@@ -43,22 +43,22 @@ public class TipoimovelDAO {
         try {
             objetoJPA.destroy(id);
         } catch (NonexistentEntityException ex) {
-            throw new Exception("Tipoimovel " + id + " não existe.", ex);
+            throw new Exception("Imovel " + id + " não existe.", ex);
         }
     }
 
-    public List<Tipoimovel> getAll(){
-        return objetoJPA.findTipoimovelEntities();
+    public List<Imovel> getAll(){
+        return objetoJPA.findImovelEntities();
     }
     
-    public Tipoimovel getTipoimovel(Integer id){
-        return objetoJPA.findTipoimovel(id);
+    public Imovel getTipoimovel(Integer id){
+        return objetoJPA.findImovel(id);
     }
     
     /**
      * @return the objetoJPA
      */
-    public TipoimovelJpaController getObjetoJPA() {
+    public ImovelJpaController getObjetoJPA() {
         return objetoJPA;
     }
 

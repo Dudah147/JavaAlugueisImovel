@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author a2319217
+ * @author dudam
  */
 @Entity
 @Table(name = "imovel")
@@ -64,7 +64,7 @@ public class Imovel implements Serializable {
     private String fotoImovel;
     @JoinColumn(name = "idTipoImovel", referencedColumnName = "idTipoImovel")
     @ManyToOne(optional = false)
-    private TipoImovel idTipoImovel;
+    private Tipoimovel idTipoImovel;
 
     public Imovel() {
     }
@@ -148,11 +148,11 @@ public class Imovel implements Serializable {
         this.fotoImovel = fotoImovel;
     }
 
-    public TipoImovel getIdTipoImovel() {
+    public Tipoimovel getIdTipoImovel() {
         return idTipoImovel;
     }
 
-    public void setIdTipoImovel(TipoImovel idTipoImovel) {
+    public void setIdTipoImovel(Tipoimovel idTipoImovel) {
         this.idTipoImovel = idTipoImovel;
     }
 
