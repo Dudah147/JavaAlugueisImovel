@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ImovelController">
+   <children>
+      <SplitPane prefHeight="400.0" prefWidth="148.0">
+         <items>
+            <GridPane minWidth="38.0" prefHeight="386.0" prefWidth="172.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="123.60001220703126" minHeight="10.0" prefHeight="90.59998779296875" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="81.79999389648438" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="91.00003662109376" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="112.59995117187498" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="107.99997558593748" minHeight="10.0" prefHeight="60.99997558593748" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="bttnTelaAlugarImovel" mnemonicParsing="false" onAction="#telaAlugarImovel" prefHeight="55.0" prefWidth="161.0" text="Alugar imóvel" GridPane.rowIndex="1" />
+                  <Button fx:id="bttnTelaImoveis" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="55.0" prefWidth="162.0" style="-fx-background-color: #34bef4;" text="Imóveis" textFill="WHITE" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <Button fx:id="bttnTelaLocatario" mnemonicParsing="false" onAction="#telaLocatario" prefHeight="55.0" prefWidth="162.0" text="Locatários" GridPane.rowIndex="3" />
+                  <Button fx:id="bttnTelaRelatorio" mnemonicParsing="false" onAction="#telaRelatorio" prefHeight="55.0" prefWidth="162.0" text="Relatório" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+         </items>
+      </SplitPane>
+      <AnchorPane fx:id="viewImoveis" layoutX="146.0" prefHeight="398.0" prefWidth="454.0">
+         <children>
+            <TableView fx:id="tableImovel" layoutX="22.0" layoutY="55.0" prefHeight="291.0" prefWidth="409.0">
+              <columns>
+                <TableColumn fx:id="idImovel" prefWidth="59.20001220703125" text="IdImovel" />
+                <TableColumn fx:id="endereco" prefWidth="199.20001220703125" text="Endereço" />
+                  <TableColumn fx:id="metragem" minWidth="3.20001220703125" prefWidth="76.0" text="Metragem" />
+                  <TableColumn fx:id="valor" prefWidth="74.4000244140625" text="Valor" />
+              </columns>
+            </TableView>
+            <Button fx:id="bttnAdicionarImovel" layoutX="327.0" layoutY="358.0" mnemonicParsing="false" onAction="#addImovel" text="Adicionar imóvel" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="viewCadastroImovel" layoutX="147.0" layoutY="-2.0" prefHeight="400.0" prefWidth="454.0" visible="false">
+         <children>
+            <TextField fx:id="inpEndereco" layoutX="100.0" layoutY="64.0" prefHeight="26.0" prefWidth="316.0" />
+            <Label layoutX="25.0" layoutY="69.0" text="Endereço" />
+            <Label layoutX="150.0" layoutY="14.0" text="Cadastro de imóvel">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="inpMetragem" layoutX="100.0" layoutY="114.0" prefHeight="26.0" prefWidth="114.0" />
+            <Label layoutX="25.0" layoutY="119.0" text="Metragem" />
+            <TextField fx:id="inpQuartos" layoutX="310.0" layoutY="114.0" prefHeight="26.0" prefWidth="105.0" />
+            <Label layoutX="247.0" layoutY="119.0" text="Quartos" />
+            <TextField fx:id="inpBanheiros" layoutX="100.0" layoutY="163.0" prefHeight="26.0" prefWidth="114.0" />
+            <Label layoutX="25.0" layoutY="168.0" text="Banheiros" />
+            <TextField fx:id="inpValor" layoutX="310.0" layoutY="163.0" prefHeight="26.0" prefWidth="105.0" />
+            <Label layoutX="258.0" layoutY="168.0" text="Valor" />
+            <Label layoutX="27.0" layoutY="232.0" text="Descrição" />
+            <TextArea fx:id="inpDescricao" layoutX="100.0" layoutY="210.0" prefHeight="62.0" prefWidth="316.0" />
+            <Button layoutX="349.0" layoutY="349.0" mnemonicParsing="false" text="Cadastrar" />
+            <Label layoutX="18.0" layoutY="296.0" text="Tipo imovel" />
+            <ComboBox fx:id="inpTipoImovel" layoutX="100.0" layoutY="292.0" prefWidth="150.0" />
+            <Button fx:id="btnAddTipoImovel" layoutX="260.0" layoutY="292.0" mnemonicParsing="false" onAction="#addTipoImovel" text="+" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
