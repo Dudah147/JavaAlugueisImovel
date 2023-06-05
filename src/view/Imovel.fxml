@@ -52,7 +52,7 @@
                   <TableColumn fx:id="valor" prefWidth="74.4000244140625" text="Valor" />
               </columns>
             </TableView>
-            <Button fx:id="bttnAdicionarImovel" layoutX="327.0" layoutY="358.0" mnemonicParsing="false" onAction="#addImovel" text="Adicionar imóvel" />
+            <Button fx:id="bttnAdicionarImovel" layoutX="327.0" layoutY="358.0" mnemonicParsing="false" onAction="#viewCadastrarImovel" text="Adicionar imóvel" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="viewCadastroImovel" layoutX="147.0" layoutY="-2.0" prefHeight="400.0" prefWidth="454.0" visible="false">

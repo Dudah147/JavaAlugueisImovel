@@ -33,7 +33,7 @@ import logico.TrocaTelas;
  * @author dudam
  */
 public class ImovelController extends TrocaTelas implements Initializable {
-
+    private boolean flag_new_timovel;
     @FXML
     private Button bttnTelaAlugarImovel;
     @FXML
@@ -102,7 +102,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
     }    
 
     @FXML
-    private void addImovel(ActionEvent event) {
+    private void viewCadastrarImovel(ActionEvent event) {
         this.viewImoveis.setVisible(false);
         
         this.viewCadastroImovel.setVisible(true);
@@ -110,5 +110,11 @@ public class ImovelController extends TrocaTelas implements Initializable {
 
     @FXML
     private void addTipoImovel(ActionEvent event) {
+        this.viewCadastroImovel.getChildren().remove(this.inpTipoImovel);
+        
+        TextField inpNewTipoImovel = new TextField();
+        this.flag_new_timovel = true;
+        
+        
     }
 }
