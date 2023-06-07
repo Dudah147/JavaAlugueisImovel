@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ImovelController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ImovelController">
    <children>
       <SplitPane prefHeight="400.0" prefWidth="148.0">
          <items>
@@ -74,10 +74,12 @@
             <Label layoutX="258.0" layoutY="168.0" text="Valor" />
             <Label layoutX="27.0" layoutY="232.0" text="Descrição" />
             <TextArea fx:id="inpDescricao" layoutX="100.0" layoutY="210.0" prefHeight="62.0" prefWidth="316.0" />
-            <Button layoutX="349.0" layoutY="349.0" mnemonicParsing="false" text="Cadastrar" />
+            <Button fx:id="bttnCadastrarImovel" layoutX="349.0" layoutY="349.0" mnemonicParsing="false" onAction="#cadastrarImovel" text="Cadastrar" />
             <Label layoutX="18.0" layoutY="296.0" text="Tipo imovel" />
             <ComboBox fx:id="inpTipoImovel" layoutX="100.0" layoutY="292.0" prefWidth="150.0" />
             <Button fx:id="btnAddTipoImovel" layoutX="260.0" layoutY="292.0" mnemonicParsing="false" onAction="#addTipoImovel" text="+" />
+            <TextField fx:id="inpFoto" layoutX="100.0" layoutY="336.0" prefHeight="26.0" prefWidth="185.0" />
+            <Label layoutX="18.0" layoutY="341.0" text="Foto imovel" />
          </children>
       </AnchorPane>
    </children>

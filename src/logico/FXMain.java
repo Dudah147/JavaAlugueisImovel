@@ -49,7 +49,7 @@ public class FXMain extends Application {
 //        try {
 //            DataBaseJDBC banco = new DataBaseJDBC();
 //
-//            banco.createDB();
+////            banco.createDB();
 //
 //            File arq = new File("src\\database\\Tabelas.sql");
 //

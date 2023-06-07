@@ -37,7 +37,7 @@ public class TrocaTelas {
     }
     
     @FXML
-    private void telaImoveis (ActionEvent event) { 
+    public void telaImoveis (ActionEvent event) { 
         try{
             Parent root = FXMLLoader.load(getClass().getResource("/view/Imovel.fxml"));
             String css = this.getClass().getResource("/view/geral.css").toExternalForm();
