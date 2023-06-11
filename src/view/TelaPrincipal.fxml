@@ -2,35 +2,40 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaPrincipalController">
-   <children>
-      <SplitPane prefHeight="400.0" prefWidth="148.0">
+<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaPrincipalController">
+   <left>
+      <SplitPane prefHeight="527.0" prefWidth="175.0" BorderPane.alignment="CENTER">
          <items>
-            <GridPane minWidth="38.0" prefHeight="386.0" prefWidth="172.0">
+            <GridPane minHeight="162.0" minWidth="38.0" prefHeight="510.0" prefWidth="162.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="123.60001220703126" minHeight="10.0" prefHeight="90.59998779296875" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="81.79999389648438" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="91.00003662109376" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="112.59995117187498" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="107.99997558593748" minHeight="10.0" prefHeight="60.99997558593748" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="250.39999389648438" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="0.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="0.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="70.0" minHeight="0.0" prefHeight="35.799999999999955" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="bttnTelaImoveis" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="55.0" prefWidth="162.0" text="Imóveis" GridPane.rowIndex="2" />
-                  <Button fx:id="bttnTelaLocatario" mnemonicParsing="false" onAction="#telaLocatario" prefHeight="55.0" prefWidth="162.0" text="Locatários" GridPane.rowIndex="3" />
-                  <Button fx:id="bttnTelaRelatorio" mnemonicParsing="false" onAction="#telaRelatorio" prefHeight="55.0" prefWidth="162.0" text="Relatório" GridPane.rowIndex="4" />
-                  <Button fx:id="bttnTelaAlugarImovel" mnemonicParsing="false" onAction="#telaAlugarImovel" prefHeight="55.0" prefWidth="162.0" text="Alugar imóvel" GridPane.rowIndex="1" />
+                  <Button fx:id="bttnTelaImoveis" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="135.0" prefWidth="174.0" text="Imóveis" GridPane.rowIndex="1" />
+                  <Button fx:id="bttnTelaLocatario" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaLocatario" prefHeight="135.0" prefWidth="174.0" text="Locatários" GridPane.rowIndex="2" />
+                  <Button fx:id="bttnTelaRelatorio" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaRelatorio" prefHeight="135.0" prefWidth="174.0" text="Relatório" GridPane.rowIndex="3" />
+                  <ImageView fx:id="imgPrincipal" fitHeight="142.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@../src/imobiliaria.png" />
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
          </items>
       </SplitPane>
-   </children>
-</AnchorPane>
+   </left>
+</BorderPane>

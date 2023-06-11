@@ -13,6 +13,7 @@ create table Imovel (
     descricaoDependencias VARCHAR(500) NOT NULL,
     valorLocacao DOUBLE NOT NULL,
     fotoImovel VARCHAR(500) NOT NULL,
+    alocado BOOLEAN DEFAULT false,
     idTipoImovel INT NOT NULL,
     PRIMARY KEY (idImovel),
     FOREIGN KEY (idTipoImovel)

@@ -35,9 +35,6 @@ public class FXMain extends Application {
 
 
         primaryStage.setTitle("Venda de Imoveis");
-        primaryStage.setResizable(false);
-        primaryStage.setFullScreen(false);
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.valueOf("ALT+ENTER"));
         primaryStage.setScene(scene);
         primaryStage.show();
     }

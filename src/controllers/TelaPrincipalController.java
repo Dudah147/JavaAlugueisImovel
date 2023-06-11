@@ -23,6 +23,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import logico.TrocaTelas;
 
@@ -38,18 +40,20 @@ public class TelaPrincipalController extends TrocaTelas implements Initializable
     private Parent root;
 
     @FXML
-    private Button bttnTelaAlugarImovel;
-    @FXML
     private Button bttnTelaImoveis;
     @FXML
     private Button bttnTelaLocatario;
     @FXML
     private Button bttnTelaRelatorio;
+    @FXML
+    private ImageView imgPrincipal;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
     }
+
 }

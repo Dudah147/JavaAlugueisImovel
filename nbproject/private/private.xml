@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/view/Feedback.fxml</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/controllers/ImovelController.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/controllers/FeedbackController.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/logico/FXMain.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/ImovelController.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/DAO/ImovelDAO.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/DAO/TipoimovelDAO.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/database/Tabelas.sql</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/entity/Imovel.java</file>
         </group>
     </open-files>
 </project-private>

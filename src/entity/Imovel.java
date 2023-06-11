@@ -32,7 +32,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Imovel.findByQuantBanheiros", query = "SELECT i FROM Imovel i WHERE i.quantBanheiros = :quantBanheiros"),
     @NamedQuery(name = "Imovel.findByDescricaoDependencias", query = "SELECT i FROM Imovel i WHERE i.descricaoDependencias = :descricaoDependencias"),
     @NamedQuery(name = "Imovel.findByValorLocacao", query = "SELECT i FROM Imovel i WHERE i.valorLocacao = :valorLocacao"),
-    @NamedQuery(name = "Imovel.findByFotoImovel", query = "SELECT i FROM Imovel i WHERE i.fotoImovel = :fotoImovel")})
+    @NamedQuery(name = "Imovel.findByFotoImovel", query = "SELECT i FROM Imovel i WHERE i.fotoImovel = :fotoImovel"),
+    @NamedQuery(name = "Imovel.findByAlocado", query = "SELECT i FROM Imovel i WHERE i.alocado = :alocado")})
 public class Imovel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,6 +63,8 @@ public class Imovel implements Serializable {
     @Basic(optional = false)
     @Column(name = "fotoImovel")
     private String fotoImovel;
+    @Column(name = "alocado")
+    private Boolean alocado;
     @JoinColumn(name = "idTipoImovel", referencedColumnName = "idTipoImovel")
     @ManyToOne(optional = false)
     private Tipoimovel idTipoImovel;
@@ -146,6 +149,14 @@ public class Imovel implements Serializable {
 
     public void setFotoImovel(String fotoImovel) {
         this.fotoImovel = fotoImovel;
+    }
+
+    public Boolean getAlocado() {
+        return alocado;
+    }
+
+    public void setAlocado(Boolean alocado) {
+        this.alocado = alocado;
     }
 
     public Tipoimovel getIdTipoImovel() {

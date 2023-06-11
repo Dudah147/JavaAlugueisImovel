@@ -4,6 +4,7 @@
  */
 package logico;
 
+import controllers.ImovelController;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,29 +24,20 @@ public class TrocaTelas {
     private Parent root;
     
     @FXML
-    private void telaAlugarImovel(ActionEvent event) { 
-        try{
-            Parent root = FXMLLoader.load(getClass().getResource("/view/AlugarImovel.fxml"));
-            this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();  
-            this.scene = new Scene(root);
-            this.stage.setScene(this.scene);
-            this.stage.show();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        
-    }
-    
-    @FXML
     public void telaImoveis (ActionEvent event) { 
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Imovel.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Imovel.fxml"));
+            Parent root = loader.load();
             String css = this.getClass().getResource("/view/geral.css").toExternalForm();
             
             this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();  
             this.scene = new Scene(root);
             this.scene.getStylesheets().add(css);
             this.stage.setScene(this.scene);
+            
+            ImovelController controller = loader.getController();
+            controller.setController(controller);
+            
             this.stage.show();
         }catch(IOException e){
             e.printStackTrace();
