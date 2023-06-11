@@ -4,34 +4,32 @@
  */
 package DAO;
 
-import entity.Imovel;
+import entity.Locacao;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import jpaController.ImovelJpaController;
-import jpaController.exceptions.IllegalOrphanException;
+import jpaController.LocacaoJpaController;
 import jpaController.exceptions.NonexistentEntityException;
 
 /**
  *
  * @author dudam
  */
-public class ImovelDAO {
-    private ImovelJpaController objetoJPA;
+public class LocacaoDAO {
+    private LocacaoJpaController objetoJPA;
     private EntityManagerFactory emf;
 
-    public ImovelDAO() {
+    public LocacaoDAO() {
         emf = Persistence.createEntityManagerFactory("ProjetoJavaAluguelImovelPU");
-        objetoJPA = new ImovelJpaController(emf);
+        objetoJPA = new LocacaoJpaController(emf);
     }
     
-    public void add(Imovel objeto) throws Exception{
+    public void add(Locacao objeto) throws Exception{
 
         objetoJPA.create(objeto);
     }
 
-    public void edit(Imovel objeto) throws Exception{
+    public void edit(Locacao objeto) throws Exception{
         try {
             objetoJPA.edit(objeto);
         } catch (NonexistentEntityException ex) {
@@ -47,18 +45,18 @@ public class ImovelDAO {
         }
     }
 
-    public List<Imovel> getAll(){
-        return objetoJPA.findImovelEntities();
+    public List<Locacao> getAll(){
+        return objetoJPA.findLocacaoEntities();
     }
     
-    public Imovel getImovel(Integer id){
-        return objetoJPA.findImovel(id);
+    public Locacao getTipoimovel(Integer id){
+        return objetoJPA.findLocacao(id);
     }
     
     /**
      * @return the objetoJPA
      */
-    public ImovelJpaController getObjetoJPA() {
+    public LocacaoJpaController getObjetoJPA() {
         return objetoJPA;
     }
 

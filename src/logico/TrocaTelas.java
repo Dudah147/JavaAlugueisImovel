@@ -46,9 +46,9 @@ public class TrocaTelas {
     }
     
     @FXML
-    private void telaLocatario(ActionEvent event) { 
+    public void telaLocatario(ActionEvent event) { 
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/view/AlugarImovel.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Locatario.fxml"));
             String css = this.getClass().getResource("/view/geral.css").toExternalForm();
             
             this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();  
@@ -63,9 +63,9 @@ public class TrocaTelas {
     }
     
     @FXML
-    private void telaRelatorio(ActionEvent event) { 
+    public void telaRelatorio(ActionEvent event) { 
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/view/AlugarImovel.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Relatorio.fxml"));
             String css = this.getClass().getResource("/view/geral.css").toExternalForm();
             
             this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();  

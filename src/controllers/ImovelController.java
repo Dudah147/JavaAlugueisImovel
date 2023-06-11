@@ -30,6 +30,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -72,8 +73,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private TableColumn<Imovel, Double> valor;
     @FXML
-    private Button bttnAdicionarImovel;
-    @FXML
     private AnchorPane viewImoveis;
     @FXML
     private AnchorPane viewCadastroImovel;
@@ -94,8 +93,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private Button btnAddTipoImovel;
     @FXML
-    private Button bttnCadastrarImovel;
-    @FXML
     private TextField inpFoto;
     @FXML
     private Button bttnTelaImoveis1;
@@ -105,8 +102,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private Button bttnTelaRelatorio1;
     @FXML
     private ImageView imgPrincipal;
-    @FXML
-    private Label labelFeedback;
     @FXML
     private Button bttnVoltar;
     @FXML
@@ -126,23 +121,17 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private TextArea upDescricao;
     @FXML
-    private Button bttnAtualizar;
-    @FXML
     private ComboBox<Tipoimovel> upTipoImovel;
     @FXML
     private Button btnUpAddTipoImovel;
     @FXML
     private TextField upFoto;
     @FXML
-    private Label labelFeedback1;
-    @FXML
     private AnchorPane viewUpdateImovel;
     @FXML
     private TextField upIdImovel;
     @FXML
     private Button bttnVisualizar;
-    @FXML
-    private ImageView bttnSearchFile;
     @FXML
     private Label viewMetragem;
     @FXML
@@ -154,8 +143,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private Label viewDescricao;
     @FXML
-    private Label labelFeedback11;
-    @FXML
     private Label viewTipoImovel;
     @FXML
     private Label viewLocado;
@@ -165,6 +152,18 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private ImageView viewFoto;
     @FXML
     private AnchorPane viewVisuarlizar;
+    @FXML
+    private Button bttnAdicionarImovel;
+    @FXML
+    private Button bttnCadastrarImovel;
+    @FXML
+    private ImageView bttnSearchFile;
+    @FXML
+    private Button bttnAtualizar;
+    @FXML
+    private Label labelFeedback1;
+    @FXML
+    private Label labelFeedback11;
 
     /**
      * Initializes the controller class.
@@ -236,29 +235,39 @@ public class ImovelController extends TrocaTelas implements Initializable {
     }
 
     public void callFeedback(String msg, ActionEvent event, String tipo) throws IOException {
-        
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alerta;
+        alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmação");
         alerta.setHeaderText(null);
         alerta.setContentText(msg);
-        
-        Optional <ButtonType> option = alerta.showAndWait();
-        
-        if(option.get().equals(ButtonType.OK)){
+
+        Optional<ButtonType> option = alerta.showAndWait();
+
+        if (option.get().equals(ButtonType.OK)) {
             switch (tipo) {
                 case "cadastrar":
                     this.insertBanco(event);
                     break;
-                    
-                case "update": 
-//                    this.updateImovel(event);
+
+                case "update":
+                    this.updateBanco(event);
+                    break;
+                case "delete":
+                    this.removeImovel(event);
                     break;
             }
+        } else {
+            alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Cancelado com sucesso!");
+            alerta.showAndWait();
         }
 
     }
-    
+
     public void insertBanco(ActionEvent event) {
+        Alert alerta;
         Imovel objImovel = new Imovel();
         objImovel.setEndereco(this.inpEndereco.getText());
         objImovel.setMetragem(Double.parseDouble(this.inpMetragem.getText()));
@@ -292,140 +301,24 @@ public class ImovelController extends TrocaTelas implements Initializable {
             imovelDAO.add(objImovel);
             this.listaObs.clear();
             this.listaObs.addAll(imovelDAO.getAll());
-            System.out.println("Imovel inserido com sucesso");
-            
+
             super.telaImoveis(event);
+
+            alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Imóvel cadastrado com sucesso!");
+            alerta.showAndWait();
         } catch (Exception ex) {
             System.out.println("Erro ao inserir imovel: " + ex.getMessage());
         }
 
-        
     }
 
-    @FXML
-    private void viewImovel() {
-        this.viewImoveis.setVisible(true);
-
-        this.viewCadastroImovel.setVisible(false);
-        this.viewUpdateImovel.setVisible(false);
-        this.viewVisuarlizar.setVisible(false);
-    }
-
-    @FXML
-    private void viewCadastrarImovel(ActionEvent event) {
-        this.viewImoveis.setVisible(false);
-
-        this.viewCadastroImovel.setVisible(true);
-        
-        this.viewUpdateImovel.setVisible(false);
-        
-        this.viewVisuarlizar.setVisible(false);
-    }
-
-    @FXML
-    private void addTipoImovel(ActionEvent event) {
-        this.flag_new_timovel = true;
-        this.viewCadastroImovel.getChildren().remove(this.inpTipoImovel);
-        this.viewCadastroImovel.getChildren().remove(this.btnAddTipoImovel);
-
-        this.inpNewTipoImovel = new TextField();
-        inpNewTipoImovel.prefWidth(150);
-        inpNewTipoImovel.setLayoutX(105);
-        inpNewTipoImovel.setLayoutY(420);
-
-        this.viewCadastroImovel.getChildren().add(inpNewTipoImovel);
-    }
-
-    @FXML
-    private void cadastrarImovel(ActionEvent event) {
-
-        if (this.inpBanheiros.getText().isEmpty()
-                || this.inpDescricao.getText().isEmpty()
-                || this.inpEndereco.getText().isEmpty()
-                || this.inpFoto.getText().isEmpty()
-                || this.inpMetragem.getText().isEmpty()
-                || this.inpQuartos.getText().isEmpty()
-                || ((this.inpTipoImovel.getSelectionModel().getSelectedItem() == null) && (!this.flag_new_timovel))
-                || ((this.inpNewTipoImovel != null) && (this.inpNewTipoImovel.getText().isEmpty()))
-                || this.inpValor.getText().isEmpty()) {
-            
-            this.labelFeedback.setText("Preencha todos os campos!");
-        } else {
-
-            try {
-                this.callFeedback("Deseja cadastrar este imovel?", event, "cadastrar");
-            } catch (IOException ex) {
-                Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-
-    }
-
-    @FXML
-    private void editButtons(MouseEvent event) {
-        int num = this.tableImovel.getSelectionModel().getSelectedIndex();
-        
-        if((num - 1) < -1) return;
-        
-        this.bttnEditar.setDisable(false);
-        this.bttnExcluir.setDisable(false);
-        this.bttnVisualizar.setDisable(false);
-    }
-
-    @FXML
-    private void bttnRemoveImovel(ActionEvent event) {
-        Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
-        
-        ImovelDAO imovelDao = new ImovelDAO();
-        try {
-            imovelDao.delete(tableImovel.getIdImovel());
-        } catch (Exception ex) {
-            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        super.telaImoveis(event);
-    }
-
-
-    @FXML
-    private void addUpTipoImovel(ActionEvent event) {
-        this.flag_new_timovel = true;
-        this.viewCadastroImovel.getChildren().remove(this.upTipoImovel);
-        this.viewCadastroImovel.getChildren().remove(this.btnUpAddTipoImovel);
-
-        this.inpUpNewTipoImovel = new TextField();
-        this.inpUpNewTipoImovel.prefWidth(150);
-        this.inpUpNewTipoImovel.setLayoutX(105);
-        this.inpUpNewTipoImovel.setLayoutY(420);
-
-        this.viewCadastroImovel.getChildren().add(this.inpUpNewTipoImovel);
-    }
-
-    @FXML
-    private void viewUpdateImovel(ActionEvent event) {
-        this.viewCadastroImovel.setVisible(false);
-        this.viewImoveis.setVisible(false);
-        this.viewVisuarlizar.setVisible(false);
-        this.viewUpdateImovel.setVisible(true);
-        
-        Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
-        
-        this.upIdImovel.setText(String.valueOf(tableImovel.getIdImovel()));
-        this.upBanheiros.setText(String.valueOf(tableImovel.getQuantBanheiros()));
-        this.upDescricao.setText(tableImovel.getDescricaoDependencias());
-        this.upEndereco.setText(tableImovel.getEndereco());
-        this.upQuartos.setText(String.valueOf(tableImovel.getQuantQuartos()));
-        this.upMetragem.setText(String.valueOf(tableImovel.getMetragem()));
-        this.upValor.setText(String.valueOf(tableImovel.getValorLocacao()));
-        this.upFoto.setText(tableImovel.getFotoImovel());
-
-        this.upTipoImovel.getSelectionModel().select(tableImovel.getIdTipoImovel());
-    }
-
-    @FXML
-    private void editImovel(ActionEvent event) {
+    public void updateBanco(ActionEvent event) {
+        Alert alerta;
         Imovel objImovel = new Imovel();
+
         objImovel.setIdImovel(Integer.valueOf(this.upIdImovel.getText()));
         objImovel.setEndereco(this.upEndereco.getText());
         objImovel.setMetragem(Double.parseDouble(this.upMetragem.getText()));
@@ -459,11 +352,169 @@ public class ImovelController extends TrocaTelas implements Initializable {
             imovelDAO.edit(objImovel);
             this.listaObs.clear();
             this.listaObs.addAll(imovelDAO.getAll());
-            System.out.println("Imovel atualizado com sucesso");
-            
+
             super.telaImoveis(event);
+
+            alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Imóvel atualizado com sucesso!");
+            alerta.showAndWait();
         } catch (Exception ex) {
             System.out.println("Erro ao atualizar imovel: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void viewImovel() {
+        this.viewImoveis.setVisible(true);
+
+        this.viewCadastroImovel.setVisible(false);
+        this.viewUpdateImovel.setVisible(false);
+        this.viewVisuarlizar.setVisible(false);
+    }
+
+    @FXML
+    private void viewCadastrarImovel(ActionEvent event) {
+        this.viewImoveis.setVisible(false);
+
+        this.viewCadastroImovel.setVisible(true);
+
+        this.viewUpdateImovel.setVisible(false);
+
+        this.viewVisuarlizar.setVisible(false);
+    }
+
+    @FXML
+    private void addTipoImovel(ActionEvent event) {
+        this.flag_new_timovel = true;
+        this.viewCadastroImovel.getChildren().remove(this.inpTipoImovel);
+        this.viewCadastroImovel.getChildren().remove(this.btnAddTipoImovel);
+
+        this.inpNewTipoImovel = new TextField();
+        inpNewTipoImovel.prefWidth(150);
+        inpNewTipoImovel.setLayoutX(105);
+        inpNewTipoImovel.setLayoutY(420);
+
+        this.viewCadastroImovel.getChildren().add(inpNewTipoImovel);
+    }
+
+    @FXML
+    private void cadastrarImovel(ActionEvent event) {
+        Alert alerta;
+        if (this.inpBanheiros.getText().isEmpty()
+                || this.inpDescricao.getText().isEmpty()
+                || this.inpEndereco.getText().isEmpty()
+                || this.inpFoto.getText().isEmpty()
+                || this.inpMetragem.getText().isEmpty()
+                || this.inpQuartos.getText().isEmpty()
+                || ((this.inpTipoImovel.getSelectionModel().getSelectedItem() == null) && (!this.flag_new_timovel))
+                || ((this.inpNewTipoImovel != null) && (this.inpNewTipoImovel.getText().isEmpty()))
+                || this.inpValor.getText().isEmpty()) {
+
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Preencha todos os campos!");
+            alerta.showAndWait();
+        } else {
+
+            try {
+                this.callFeedback("Deseja cadastrar este imovel?", event, "cadastrar");
+            } catch (IOException ex) {
+                Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+    }
+
+    @FXML
+    private void editButtons(MouseEvent event) {
+        int num = this.tableImovel.getSelectionModel().getSelectedIndex();
+
+        if ((num - 1) < -1) {
+            return;
+        }
+
+        this.bttnEditar.setDisable(false);
+        this.bttnExcluir.setDisable(false);
+        this.bttnVisualizar.setDisable(false);
+    }
+
+    @FXML
+    private void bttnRemoveImovel(ActionEvent event) {
+        Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
+        
+        try {
+            this.callFeedback("Deseja remover o imóvel de id " + tableImovel.getIdImovel()+ "?", event, "delete");
+        } catch (IOException ex) {
+            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void removeImovel(ActionEvent event) {
+        Alert alerta;
+        Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
+
+        ImovelDAO imovelDao = new ImovelDAO();
+        try {
+            imovelDao.delete(tableImovel.getIdImovel());
+        } catch (Exception ex) {
+            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        super.telaImoveis(event);
+        
+        alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("");
+        alerta.setHeaderText(null);
+        alerta.setContentText("Imóvel removido com sucesso!");
+        alerta.showAndWait();
+    }
+
+    @FXML
+    private void addUpTipoImovel(ActionEvent event) {
+        this.flag_new_timovel = true;
+        this.viewCadastroImovel.getChildren().remove(this.upTipoImovel);
+        this.viewCadastroImovel.getChildren().remove(this.btnUpAddTipoImovel);
+
+        this.inpUpNewTipoImovel = new TextField();
+        this.inpUpNewTipoImovel.prefWidth(150);
+        this.inpUpNewTipoImovel.setLayoutX(105);
+        this.inpUpNewTipoImovel.setLayoutY(420);
+
+        this.viewCadastroImovel.getChildren().add(this.inpUpNewTipoImovel);
+    }
+
+    @FXML
+    private void viewUpdateImovel(ActionEvent event) {
+        this.viewCadastroImovel.setVisible(false);
+        this.viewImoveis.setVisible(false);
+        this.viewVisuarlizar.setVisible(false);
+        this.viewUpdateImovel.setVisible(true);
+
+        Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
+
+        this.upIdImovel.setText(String.valueOf(tableImovel.getIdImovel()));
+        this.upBanheiros.setText(String.valueOf(tableImovel.getQuantBanheiros()));
+        this.upDescricao.setText(tableImovel.getDescricaoDependencias());
+        this.upEndereco.setText(tableImovel.getEndereco());
+        this.upQuartos.setText(String.valueOf(tableImovel.getQuantQuartos()));
+        this.upMetragem.setText(String.valueOf(tableImovel.getMetragem()));
+        this.upValor.setText(String.valueOf(tableImovel.getValorLocacao()));
+        this.upFoto.setText(tableImovel.getFotoImovel());
+
+        this.upTipoImovel.getSelectionModel().select(tableImovel.getIdTipoImovel());
+    }
+
+    @FXML
+    private void editImovel(ActionEvent event) {
+
+        try {
+            callFeedback("Deseja atualizar o imovel com id " + this.upIdImovel.getText() + "?", event, "update");
+        } catch (IOException ex) {
+            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -472,13 +523,13 @@ public class ImovelController extends TrocaTelas implements Initializable {
         this.viewImoveis.setVisible(false);
 
         this.viewCadastroImovel.setVisible(false);
-        
+
         this.viewUpdateImovel.setVisible(false);
-        
+
         this.viewVisuarlizar.setVisible(true);
-        
+
         Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
-        
+
         this.viewBanheiros.setText(String.valueOf(tableImovel.getQuantBanheiros()));
         this.viewDescricao.setText(tableImovel.getDescricaoDependencias());
         this.viewEndereco.setText(tableImovel.getEndereco());
@@ -486,27 +537,50 @@ public class ImovelController extends TrocaTelas implements Initializable {
         this.viewMetragem.setText(String.valueOf(tableImovel.getMetragem()));
         this.viewValor.setText(String.valueOf(tableImovel.getValorLocacao()));
         this.viewTipoImovel.setText(tableImovel.getIdTipoImovel().getDescricao());
-        
-        if(tableImovel.getAlocado().TRUE) this.viewLocado.setText("Sim");
-        else this.viewLocado.setText("Não");
-        
-        Image img = new Image(tableImovel.getFotoImovel());
-        this.viewFoto.setImage(img);
+
+        if (tableImovel.getAlocado().TRUE) {
+            this.viewLocado.setText("Sim");
+        } else {
+            this.viewLocado.setText("Não");
+        }
+
+        try {
+            Image img = new Image(tableImovel.getFotoImovel());
+            this.viewFoto.setImage(img);
+        } catch (IllegalArgumentException ex) {
+
+            this.viewFoto.setImage(new Image("src\\image-not-found.png"));
+        }
+
     }
 
     @FXML
     private void getPath(MouseEvent event) {
-        FileChooser  dir = new FileChooser();
-        
+        FileChooser dir = new FileChooser();
+
         dir.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-        
+
         Stage s = (Stage) this.viewCadastroImovel.getScene().getWindow();
-        
+
         File file = dir.showOpenDialog(s);
 
-        if(file != null){
+        if (file != null) {
             this.inpFoto.setText(file.getPath());
         }
     }
 
+    @FXML
+    private void getPathUp(MouseEvent event) {
+        FileChooser dir = new FileChooser();
+
+        dir.getExtensionFilters().addAll(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+
+        Stage s = (Stage) this.viewUpdateImovel.getScene().getWindow();
+
+        File file = dir.showOpenDialog(s);
+
+        if (file != null) {
+            this.upFoto.setText(file.getPath());
+        }
+    }
 }

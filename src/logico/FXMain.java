@@ -29,11 +29,12 @@ public class FXMain extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/TelaPrincipal.fxml"));
         String css = this.getClass().getResource("/view/geral.css").toExternalForm();
-           
-        Scene scene = new Scene(root); 
+
+        Scene scene = new Scene(root);
         scene.getStylesheets().add(css);
 
-
+        primaryStage.setResizable(false);
+        primaryStage.setFullScreen(false);
         primaryStage.setTitle("Venda de Imoveis");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -56,8 +57,8 @@ public class FXMain extends Application {
 //        } catch (SQLException ex) {
 //            System.out.println("Falha na criação do DB " + ex.getMessage());
 //        }
-//        
         
+
         launch(args);
     }
 
