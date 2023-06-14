@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ImovelController">
+<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ImovelController">
    <left>
       <SplitPane prefHeight="527.0" prefWidth="175.0" BorderPane.alignment="CENTER">
          <items>
@@ -107,7 +107,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <FlowPane alignment="TOP_RIGHT" columnHalignment="CENTER" hgap="20.0" layoutX="28.0" layoutY="85.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="367.0" prefWidth="542.0" scaleShape="false" vgap="25.0">
+                  <FlowPane fx:id="viewFlowPaneImovel" alignment="TOP_RIGHT" columnHalignment="CENTER" hgap="20.0" layoutX="28.0" layoutY="85.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="367.0" prefWidth="542.0" scaleShape="false" vgap="25.0">
                      <children>
                         <Label text="Endereço">
                            <FlowPane.margin>
@@ -181,6 +181,11 @@
                               <Insets right="255.0" />
                            </FlowPane.margin>
                         </Button>
+                        <TextField fx:id="inpNewTipoImovel" visible="false">
+                           <FlowPane.margin>
+                              <Insets right="300.0" />
+                           </FlowPane.margin>
+                        </TextField>
                      </children>
                   </FlowPane>
                </children>
@@ -207,7 +212,6 @@
                   <Button fx:id="bttnAtualizar" layoutX="490.0" layoutY="475.0" mnemonicParsing="false" onAction="#editImovel" prefWidth="80.0" text="Atualizar" />
                   <Label layoutX="25.0" layoutY="427.0" text="Tipo imovel" />
                   <ComboBox fx:id="upTipoImovel" layoutX="105.0" layoutY="420.0" prefHeight="27.0" prefWidth="150.0" />
-                  <Button fx:id="btnUpAddTipoImovel" ellipsisString="" layoutX="273.0" layoutY="420.0" mnemonicParsing="false" onAction="#addUpTipoImovel" prefHeight="27.0" text="+" />
                   <TextField fx:id="upFoto" layoutX="100.0" layoutY="363.0" prefHeight="30.0" prefWidth="384.0" />
                   <Label layoutX="25.0" layoutY="368.0" text="Foto imovel" />
                   <Label fx:id="labelFeedback1" layoutX="7.0" layoutY="61.0" textFill="RED" />

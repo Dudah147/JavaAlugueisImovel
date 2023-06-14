@@ -41,6 +41,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -56,7 +57,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
 
     private boolean flag_new_timovel;
     private List<Tipoimovel> tImoveis;
-    private TextField inpNewTipoImovel;
     private TextField inpUpNewTipoImovel;
     private ObservableList<Imovel> listaObs;
 
@@ -122,7 +122,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private TextArea upDescricao;
     @FXML
     private ComboBox<Tipoimovel> upTipoImovel;
-    @FXML
     private Button btnUpAddTipoImovel;
     @FXML
     private TextField upFoto;
@@ -164,6 +163,10 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private Label labelFeedback1;
     @FXML
     private Label labelFeedback11;
+    @FXML
+    private TextField inpNewTipoImovel;
+    @FXML
+    private FlowPane viewFlowPaneImovel;
 
     /**
      * Initializes the controller class.
@@ -366,12 +369,8 @@ public class ImovelController extends TrocaTelas implements Initializable {
     }
 
     @FXML
-    private void viewImovel() {
-        this.viewImoveis.setVisible(true);
-
-        this.viewCadastroImovel.setVisible(false);
-        this.viewUpdateImovel.setVisible(false);
-        this.viewVisuarlizar.setVisible(false);
+    private void viewImovel(ActionEvent event) {
+        super.telaImoveis(event);
     }
 
     @FXML
@@ -388,15 +387,10 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private void addTipoImovel(ActionEvent event) {
         this.flag_new_timovel = true;
-        this.viewCadastroImovel.getChildren().remove(this.inpTipoImovel);
-        this.viewCadastroImovel.getChildren().remove(this.btnAddTipoImovel);
+        this.viewFlowPaneImovel.getChildren().remove(this.inpTipoImovel);
+        this.viewFlowPaneImovel.getChildren().remove(this.btnAddTipoImovel);
 
-        this.inpNewTipoImovel = new TextField();
-        inpNewTipoImovel.prefWidth(150);
-        inpNewTipoImovel.setLayoutX(105);
-        inpNewTipoImovel.setLayoutY(420);
-
-        this.viewCadastroImovel.getChildren().add(inpNewTipoImovel);
+        this.inpNewTipoImovel.setVisible(true);
     }
 
     @FXML
@@ -445,9 +439,9 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private void bttnRemoveImovel(ActionEvent event) {
         Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
-        
+
         try {
-            this.callFeedback("Deseja remover o imóvel de id " + tableImovel.getIdImovel()+ "?", event, "delete");
+            this.callFeedback("Deseja remover o imóvel de id " + tableImovel.getIdImovel() + "?", event, "delete");
         } catch (IOException ex) {
             Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -465,7 +459,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
         }
 
         super.telaImoveis(event);
-        
+
         alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("");
         alerta.setHeaderText(null);
@@ -473,18 +467,17 @@ public class ImovelController extends TrocaTelas implements Initializable {
         alerta.showAndWait();
     }
 
-    @FXML
     private void addUpTipoImovel(ActionEvent event) {
         this.flag_new_timovel = true;
-        this.viewCadastroImovel.getChildren().remove(this.upTipoImovel);
-        this.viewCadastroImovel.getChildren().remove(this.btnUpAddTipoImovel);
+        this.viewUpdateImovel.getChildren().remove(this.upTipoImovel);
+        this.viewUpdateImovel.getChildren().remove(this.btnUpAddTipoImovel);
 
         this.inpUpNewTipoImovel = new TextField();
         this.inpUpNewTipoImovel.prefWidth(150);
         this.inpUpNewTipoImovel.setLayoutX(105);
         this.inpUpNewTipoImovel.setLayoutY(420);
 
-        this.viewCadastroImovel.getChildren().add(this.inpUpNewTipoImovel);
+        this.viewUpdateImovel.getChildren().add(this.inpUpNewTipoImovel);
     }
 
     @FXML
@@ -510,11 +503,29 @@ public class ImovelController extends TrocaTelas implements Initializable {
 
     @FXML
     private void editImovel(ActionEvent event) {
+        Alert alerta;
+        if (this.upBanheiros.getText().isEmpty()
+                || this.upDescricao.getText().isEmpty()
+                || this.upEndereco.getText().isEmpty()
+                || this.upFoto.getText().isEmpty()
+                || this.upMetragem.getText().isEmpty()
+                || this.upQuartos.getText().isEmpty()
+                || ((this.upTipoImovel.getSelectionModel().getSelectedItem() == null) && (!this.flag_new_timovel))
+                || ((this.inpNewTipoImovel != null) && (this.inpNewTipoImovel.getText().isEmpty()))
+                || this.inpValor.getText().isEmpty()) {
 
-        try {
-            callFeedback("Deseja atualizar o imovel com id " + this.upIdImovel.getText() + "?", event, "update");
-        } catch (IOException ex) {
-            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+            alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Preencha todos os campos!");
+            alerta.showAndWait();
+        } else {
+
+            try {
+                callFeedback("Deseja atualizar o imovel com id " + this.upIdImovel.getText() + "?", event, "update");
+            } catch (IOException ex) {
+                Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
