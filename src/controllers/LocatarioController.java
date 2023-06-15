@@ -166,7 +166,7 @@ public class LocatarioController extends TrocaTelas implements Initializable {
         this.tableLocatario.setItems(listaObs);
     }
 
-    public void alertConformation(String msg, ActionEvent event, String tipo) throws IOException {
+    public void alertConfirmation(String msg, ActionEvent event, String tipo) throws IOException {
         Alert alerta;
         alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmação");
@@ -276,7 +276,7 @@ public class LocatarioController extends TrocaTelas implements Initializable {
                 this.alertError("CPF já cadastrado no sistema");
             } else {
                 try {
-                    this.alertConformation("Deseja cadastrar um novo locatário?", event, "cadastrar");
+                    this.alertConfirmation("Deseja cadastrar um novo locatário?", event, "cadastrar");
                 } catch (IOException ex) {
                     Logger.getLogger(LocatarioController.class.getName()).log(Level.SEVERE, null, ex);
                 }

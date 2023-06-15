@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LocatarioController">
+<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LocatarioController">
    <left>
       <SplitPane prefHeight="527.0" prefWidth="175.0" BorderPane.alignment="CENTER">
          <items>
@@ -65,7 +65,7 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="viewLocatarios" prefHeight="527.0" prefWidth="598.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="viewLocatarios" prefHeight="527.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TableView fx:id="tableLocatario" layoutX="22.0" layoutY="105.0" onMouseClicked="#editButtons" prefHeight="340.0" prefWidth="547.0" AnchorPane.bottomAnchor="82.20000000000005" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="29.199999999999932" AnchorPane.topAnchor="105.0">
                      <columns>
@@ -150,7 +150,7 @@
                   </FlowPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="viewEditarLocatario" prefHeight="527.0" prefWidth="598.0">
+            <AnchorPane fx:id="viewEditarLocatario" prefHeight="527.0" prefWidth="598.0" visible="false">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="18.0" prefHeight="38.0" prefWidth="595.0" text="Editar Locatário" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.1999999999999318">
                      <font>
