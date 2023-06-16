@@ -11,10 +11,12 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -47,6 +49,7 @@ import logico.TrocaTelas;
 public class LocatarioController extends TrocaTelas implements Initializable {
 
     private ObservableList<Locatario> listaObs;
+    private LocatarioDAO locatarioDados;
 
     @FXML
     private Button bttnTelaImoveis1;
@@ -114,12 +117,13 @@ public class LocatarioController extends TrocaTelas implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.locatarioDados = new LocatarioDAO();
         // Adiciona dados a tabela
         this.setDataTable();
 
         // Adiciona dados ao comboBox
         this.setDataComboBox();
-        
+
         // Retira campo txt de datePicker
         this.inpDataNasc.getEditor().setDisable(true);
         this.inpDataNasc.getEditor().setOpacity(1);
@@ -133,13 +137,12 @@ public class LocatarioController extends TrocaTelas implements Initializable {
 
         ObservableList<String> comboBoxList = FXCollections.observableArrayList(listaEstadoCivil);
         this.inpEstadoCivil.setItems(comboBoxList);
+        this.upEstadoCivil.setItems(comboBoxList);
     }
 
     public void setDataTable() {
 
-        LocatarioDAO locatario = new LocatarioDAO();
-
-        this.listaObs = FXCollections.observableArrayList(locatario.getAll());
+        this.listaObs = FXCollections.observableArrayList(this.locatarioDados.getAll());
 
         this.idLocatario.setCellValueFactory(new PropertyValueFactory<>("idLocatario"));
         this.nome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -182,6 +185,7 @@ public class LocatarioController extends TrocaTelas implements Initializable {
                     break;
 
                 case "update":
+                    this.updateBanco(event);
                     break;
                 case "delete":
                     break;
@@ -225,7 +229,7 @@ public class LocatarioController extends TrocaTelas implements Initializable {
         this.viewLocatarios.setVisible(false);
         this.viewEditarLocatario.setVisible(true);
         this.viewCadastrarLocatario.setVisible(false);
-        
+
         Locatario tableLoc = this.tableLocatario.getSelectionModel().getSelectedItem();
 
         this.upIdLocatario.setText(String.valueOf(tableLoc.getIdLocatario()));
@@ -233,10 +237,16 @@ public class LocatarioController extends TrocaTelas implements Initializable {
         this.upCPF.setText(tableLoc.getCpf());
         this.upNome.setText(tableLoc.getNome());
         
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        this.upDataNasc.getEditor().setDisable(true);
+        this.upDataNasc.getEditor().setOpacity(1);
         
-        this.upDataNasc.getEditor().setText(format.format(tableLoc.getDataNascimento()));
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+        String data = String.valueOf(format.format(tableLoc.getDataNascimento()));
+        
+        this.upDataNasc.setValue(LocalDate.parse(data, formatter));
+        
         this.upEstadoCivil.getSelectionModel().select(tableLoc.getEstadoCivil());
     }
 
@@ -250,23 +260,26 @@ public class LocatarioController extends TrocaTelas implements Initializable {
     @FXML
     private void cadastrarLocatario(ActionEvent event) {
         ZoneId zone = ZoneId.systemDefault();
-        LocalDate hoje = LocalDate.now( zone );
-        if(this.inpDataNasc.getValue().isAfter(hoje) || this.inpDataNasc.getValue().isEqual(hoje)){
-            this.alertError("Informe uma data válida");
-            return;
+        LocalDate hoje = LocalDate.now(zone);
+        if (this.inpDataNasc.getValue() != null) {
+            if (this.inpDataNasc.getValue().isAfter(hoje) || this.inpDataNasc.getValue().isEqual(hoje)) {
+                this.alertError("Informe uma data válida");
+                return;
+            }
         }
+
         if (this.inpCPF.getText().isEmpty()
                 || this.inpBanco.getText().isEmpty()
-                || this.inpDataNasc.getValue() == null
+                || this.inpDataNasc == null
                 || this.inpNome.getText().isEmpty()
                 || this.inpEstadoCivil.getSelectionModel().getSelectedItem() == null) {
 
             this.alertError("Preencha todos os campos!");
+
         } else {
             boolean flag_cpf = false;
-            LocatarioDAO loc = new LocatarioDAO();
 
-            for (Locatario l : loc.getAll()) {
+            for (Locatario l : this.locatarioDados.getAll()) {
                 if (l.getCpf().equals(this.inpCPF.getText())) {
                     flag_cpf = true;
                 }
@@ -293,10 +306,9 @@ public class LocatarioController extends TrocaTelas implements Initializable {
         objLocatario.setEstadoCivil(this.inpEstadoCivil.getValue());
 
         try {
-            LocatarioDAO locatarioDAO = new LocatarioDAO();
-            locatarioDAO.add(objLocatario);
+            this.locatarioDados.add(objLocatario);
             this.listaObs.clear();
-            this.listaObs.addAll(locatarioDAO.getAll());
+            this.listaObs.addAll(this.locatarioDados.getAll());
 
             super.telaLocatario(event);
 
@@ -308,23 +320,59 @@ public class LocatarioController extends TrocaTelas implements Initializable {
 
     @FXML
     private void updateLocatario(ActionEvent event) {
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDate hoje = LocalDate.now(zone);
+        if (this.upDataNasc.getValue() != null) {
+            if (this.upDataNasc.getValue().isAfter(hoje) || this.upDataNasc.getValue().isEqual(hoje)) {
+                this.alertError("Informe uma data válida");
+                return;
+            }
+        }
+
+        if (this.upCPF.getText().isEmpty()
+                || this.upBanco.getText().isEmpty()
+                || this.upDataNasc == null
+                || this.upNome.getText().isEmpty()
+                || this.upEstadoCivil.getSelectionModel().getSelectedItem() == null) {
+
+            this.alertError("Preencha todos os campos!");
+
+        } else {
+            boolean flag_cpf = false;
+
+            for (Locatario l : this.locatarioDados.getAll()) {
+                if (l.getCpf().equals(this.upCPF.getText()) && !Objects.equals(l.getIdLocatario(), Integer.valueOf(this.upIdLocatario.getText()))) {
+                    flag_cpf = true;
+                }
+            }
+
+            if (flag_cpf == true) {
+                this.alertError("CPF já cadastrado no sistema");
+            } else {
+                try {
+                    this.alertConfirmation("Deseja atualizar o locatário de id " + this.upIdLocatario.getText() +"?", event, "update");
+                } catch (IOException ex) {
+                    Logger.getLogger(LocatarioController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
-    
+
     public void updateBanco(ActionEvent event) {
         Locatario objLocatario = new Locatario();
+        objLocatario.setIdLocatario(Integer.valueOf(this.upIdLocatario.getText()));
         objLocatario.setCpf(this.upCPF.getText());
         objLocatario.setNome(this.upNome.getText());
         objLocatario.setContaBancaria(this.upBanco.getText());
         objLocatario.setDataNascimento(Date.from(this.upDataNasc.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         objLocatario.setEstadoCivil(this.upEstadoCivil.getValue());
-
+        System.out.println(objLocatario);
 
         try {
-            LocatarioDAO locatarioDAO = new LocatarioDAO();
-            locatarioDAO.edit(objLocatario);
+            this.locatarioDados.edit(objLocatario);
             this.listaObs.clear();
-            this.listaObs.addAll(locatarioDAO.getAll());
-
+            this.listaObs.addAll(this.locatarioDados.getAll());
+            
             super.telaLocatario(event);
 
             this.alertInformation("Locatário editado com sucesso!");

@@ -100,9 +100,7 @@ public class Tipoimovel implements Serializable {
 
     @Override
     public String toString() {
-        return this.getDescricao();
-    }  
-    
-   
+        return "entity.Tipoimovel[ idTipoImovel=" + idTipoImovel + " ]";
+    }
     
 }

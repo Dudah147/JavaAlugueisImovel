@@ -22,7 +22,7 @@ public class TipoimovelDAO {
     private EntityManagerFactory emf;
 
     public TipoimovelDAO() {
-        emf = Persistence.createEntityManagerFactory("ProjetoJavaAluguelImovelPU");
+        emf = Persistence.createEntityManagerFactory("JavaAlugueisImovelPU");
         objetoJPA = new TipoimovelJpaController(emf);
     }
     

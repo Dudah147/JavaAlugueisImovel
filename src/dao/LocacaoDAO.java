@@ -20,7 +20,7 @@ public class LocacaoDAO {
     private EntityManagerFactory emf;
 
     public LocacaoDAO() {
-        emf = Persistence.createEntityManagerFactory("ProjetoJavaAluguelImovelPU");
+        emf = Persistence.createEntityManagerFactory("JavaAlugueisImovelPU");
         objetoJPA = new LocacaoJpaController(emf);
     }
     
@@ -33,7 +33,7 @@ public class LocacaoDAO {
         try {
             objetoJPA.edit(objeto);
         } catch (NonexistentEntityException ex) {
-            throw new Exception("Imovel " + objeto + " não existe.", ex);
+            throw new Exception("Locacao " + objeto + " não existe.", ex);
         }
     }
 
@@ -41,7 +41,7 @@ public class LocacaoDAO {
         try {
             objetoJPA.destroy(id);
         } catch (NonexistentEntityException ex) {
-            throw new Exception("Imovel " + id + " não existe.", ex);
+            throw new Exception("Locacao " + id + " não existe.", ex);
         }
     }
 

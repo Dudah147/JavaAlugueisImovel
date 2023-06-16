@@ -259,14 +259,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
                     this.removeImovel(event);
                     break;
             }
-        } else {
-            alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("");
-            alerta.setHeaderText(null);
-            alerta.setContentText("Cancelado com sucesso!");
-            alerta.showAndWait();
         }
-
     }
 
     public void insertBanco(ActionEvent event) {
@@ -331,25 +324,8 @@ public class ImovelController extends TrocaTelas implements Initializable {
         objImovel.setFotoImovel(this.upFoto.getText());
         objImovel.setDescricaoDependencias(this.upDescricao.getText());
 
-        if (!this.flag_new_timovel) {
-            objImovel.setIdTipoImovel(this.upTipoImovel.getValue());
-
-        } else {
-            Tipoimovel objTipoImovel = new Tipoimovel();
-
-            objTipoImovel.setDescricao(this.inpUpNewTipoImovel.getText());
-
-            try {
-                TipoimovelDAO tImovelDAO = new TipoimovelDAO();
-                tImovelDAO.add(objTipoImovel);
-                System.out.println("Tipo imovel inserido com sucesso");
-
-                objImovel.setIdTipoImovel(objTipoImovel);
-            } catch (Exception ex) {
-                System.out.println("Erro ao inserir tipo imovel: " + ex.getMessage());
-            }
-        }
-
+        objImovel.setIdTipoImovel(this.upTipoImovel.getValue());
+        
         try {
             ImovelDAO imovelDAO = new ImovelDAO();
             imovelDAO.edit(objImovel);
@@ -467,19 +443,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
         alerta.showAndWait();
     }
 
-    private void addUpTipoImovel(ActionEvent event) {
-        this.flag_new_timovel = true;
-        this.viewUpdateImovel.getChildren().remove(this.upTipoImovel);
-        this.viewUpdateImovel.getChildren().remove(this.btnUpAddTipoImovel);
-
-        this.inpUpNewTipoImovel = new TextField();
-        this.inpUpNewTipoImovel.prefWidth(150);
-        this.inpUpNewTipoImovel.setLayoutX(105);
-        this.inpUpNewTipoImovel.setLayoutY(420);
-
-        this.viewUpdateImovel.getChildren().add(this.inpUpNewTipoImovel);
-    }
-
     @FXML
     private void viewUpdateImovel(ActionEvent event) {
         this.viewCadastroImovel.setVisible(false);
@@ -510,9 +473,8 @@ public class ImovelController extends TrocaTelas implements Initializable {
                 || this.upFoto.getText().isEmpty()
                 || this.upMetragem.getText().isEmpty()
                 || this.upQuartos.getText().isEmpty()
-                || ((this.upTipoImovel.getSelectionModel().getSelectedItem() == null) && (!this.flag_new_timovel))
-                || ((this.inpNewTipoImovel != null) && (this.inpNewTipoImovel.getText().isEmpty()))
-                || this.inpValor.getText().isEmpty()) {
+                || this.upTipoImovel.getSelectionModel().getSelectedItem() == null
+                || this.upValor.getText().isEmpty()) {
 
             alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("");

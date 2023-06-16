@@ -20,7 +20,7 @@ public class LocatarioDAO {
     private EntityManagerFactory emf;
 
     public LocatarioDAO() {
-        emf = Persistence.createEntityManagerFactory("ProjetoJavaAluguelImovelPU");
+        emf = Persistence.createEntityManagerFactory("JavaAlugueisImovelPU");
         objetoJPA = new LocatarioJpaController(emf);
     }
     

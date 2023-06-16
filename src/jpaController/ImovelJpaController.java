@@ -11,9 +11,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import entity.Tipoimovel;
+import entity.Locacao;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import jpaController.exceptions.IllegalOrphanException;
 import jpaController.exceptions.NonexistentEntityException;
 
 /**
@@ -32,6 +36,9 @@ public class ImovelJpaController implements Serializable {
     }
 
     public void create(Imovel imovel) {
+        if (imovel.getLocacaoCollection() == null) {
+            imovel.setLocacaoCollection(new ArrayList<Locacao>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -41,10 +48,25 @@ public class ImovelJpaController implements Serializable {
                 idTipoImovel = em.getReference(idTipoImovel.getClass(), idTipoImovel.getIdTipoImovel());
                 imovel.setIdTipoImovel(idTipoImovel);
             }
+            Collection<Locacao> attachedLocacaoCollection = new ArrayList<Locacao>();
+            for (Locacao locacaoCollectionLocacaoToAttach : imovel.getLocacaoCollection()) {
+                locacaoCollectionLocacaoToAttach = em.getReference(locacaoCollectionLocacaoToAttach.getClass(), locacaoCollectionLocacaoToAttach.getIdLocacao());
+                attachedLocacaoCollection.add(locacaoCollectionLocacaoToAttach);
+            }
+            imovel.setLocacaoCollection(attachedLocacaoCollection);
             em.persist(imovel);
             if (idTipoImovel != null) {
                 idTipoImovel.getImovelCollection().add(imovel);
                 idTipoImovel = em.merge(idTipoImovel);
+            }
+            for (Locacao locacaoCollectionLocacao : imovel.getLocacaoCollection()) {
+                Imovel oldIdImovelOfLocacaoCollectionLocacao = locacaoCollectionLocacao.getIdImovel();
+                locacaoCollectionLocacao.setIdImovel(imovel);
+                locacaoCollectionLocacao = em.merge(locacaoCollectionLocacao);
+                if (oldIdImovelOfLocacaoCollectionLocacao != null) {
+                    oldIdImovelOfLocacaoCollectionLocacao.getLocacaoCollection().remove(locacaoCollectionLocacao);
+                    oldIdImovelOfLocacaoCollectionLocacao = em.merge(oldIdImovelOfLocacaoCollectionLocacao);
+                }
             }
             em.getTransaction().commit();
         } finally {
@@ -54,7 +76,7 @@ public class ImovelJpaController implements Serializable {
         }
     }
 
-    public void edit(Imovel imovel) throws NonexistentEntityException, Exception {
+    public void edit(Imovel imovel) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -62,10 +84,31 @@ public class ImovelJpaController implements Serializable {
             Imovel persistentImovel = em.find(Imovel.class, imovel.getIdImovel());
             Tipoimovel idTipoImovelOld = persistentImovel.getIdTipoImovel();
             Tipoimovel idTipoImovelNew = imovel.getIdTipoImovel();
+            Collection<Locacao> locacaoCollectionOld = persistentImovel.getLocacaoCollection();
+            Collection<Locacao> locacaoCollectionNew = imovel.getLocacaoCollection();
+            List<String> illegalOrphanMessages = null;
+            for (Locacao locacaoCollectionOldLocacao : locacaoCollectionOld) {
+                if (!locacaoCollectionNew.contains(locacaoCollectionOldLocacao)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Locacao " + locacaoCollectionOldLocacao + " since its idImovel field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (idTipoImovelNew != null) {
                 idTipoImovelNew = em.getReference(idTipoImovelNew.getClass(), idTipoImovelNew.getIdTipoImovel());
                 imovel.setIdTipoImovel(idTipoImovelNew);
             }
+            Collection<Locacao> attachedLocacaoCollectionNew = new ArrayList<Locacao>();
+            for (Locacao locacaoCollectionNewLocacaoToAttach : locacaoCollectionNew) {
+                locacaoCollectionNewLocacaoToAttach = em.getReference(locacaoCollectionNewLocacaoToAttach.getClass(), locacaoCollectionNewLocacaoToAttach.getIdLocacao());
+                attachedLocacaoCollectionNew.add(locacaoCollectionNewLocacaoToAttach);
+            }
+            locacaoCollectionNew = attachedLocacaoCollectionNew;
+            imovel.setLocacaoCollection(locacaoCollectionNew);
             imovel = em.merge(imovel);
             if (idTipoImovelOld != null && !idTipoImovelOld.equals(idTipoImovelNew)) {
                 idTipoImovelOld.getImovelCollection().remove(imovel);
@@ -74,6 +117,17 @@ public class ImovelJpaController implements Serializable {
             if (idTipoImovelNew != null && !idTipoImovelNew.equals(idTipoImovelOld)) {
                 idTipoImovelNew.getImovelCollection().add(imovel);
                 idTipoImovelNew = em.merge(idTipoImovelNew);
+            }
+            for (Locacao locacaoCollectionNewLocacao : locacaoCollectionNew) {
+                if (!locacaoCollectionOld.contains(locacaoCollectionNewLocacao)) {
+                    Imovel oldIdImovelOfLocacaoCollectionNewLocacao = locacaoCollectionNewLocacao.getIdImovel();
+                    locacaoCollectionNewLocacao.setIdImovel(imovel);
+                    locacaoCollectionNewLocacao = em.merge(locacaoCollectionNewLocacao);
+                    if (oldIdImovelOfLocacaoCollectionNewLocacao != null && !oldIdImovelOfLocacaoCollectionNewLocacao.equals(imovel)) {
+                        oldIdImovelOfLocacaoCollectionNewLocacao.getLocacaoCollection().remove(locacaoCollectionNewLocacao);
+                        oldIdImovelOfLocacaoCollectionNewLocacao = em.merge(oldIdImovelOfLocacaoCollectionNewLocacao);
+                    }
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -92,7 +146,7 @@ public class ImovelJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -103,6 +157,17 @@ public class ImovelJpaController implements Serializable {
                 imovel.getIdImovel();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The imovel with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            Collection<Locacao> locacaoCollectionOrphanCheck = imovel.getLocacaoCollection();
+            for (Locacao locacaoCollectionOrphanCheckLocacao : locacaoCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Imovel (" + imovel + ") cannot be destroyed since the Locacao " + locacaoCollectionOrphanCheckLocacao + " in its locacaoCollection field has a non-nullable idImovel field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Tipoimovel idTipoImovel = imovel.getIdTipoImovel();
             if (idTipoImovel != null) {

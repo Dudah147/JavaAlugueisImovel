@@ -39,9 +39,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Imovel.findByAlocado", query = "SELECT i FROM Imovel i WHERE i.alocado = :alocado")})
 public class Imovel implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idImovel")
-    private Collection<Locacao> locacaoCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +71,8 @@ public class Imovel implements Serializable {
     @JoinColumn(name = "idTipoImovel", referencedColumnName = "idTipoImovel")
     @ManyToOne(optional = false)
     private Tipoimovel idTipoImovel;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idImovel")
+    private Collection<Locacao> locacaoCollection;
 
     public Imovel() {
     }
@@ -173,6 +172,14 @@ public class Imovel implements Serializable {
         this.idTipoImovel = idTipoImovel;
     }
 
+    public Collection<Locacao> getLocacaoCollection() {
+        return locacaoCollection;
+    }
+
+    public void setLocacaoCollection(Collection<Locacao> locacaoCollection) {
+        this.locacaoCollection = locacaoCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -196,14 +203,6 @@ public class Imovel implements Serializable {
     @Override
     public String toString() {
         return "entity.Imovel[ idImovel=" + idImovel + " ]";
-    }
-
-    public Collection<Locacao> getLocacaoCollection() {
-        return locacaoCollection;
-    }
-
-    public void setLocacaoCollection(Collection<Locacao> locacaoCollection) {
-        this.locacaoCollection = locacaoCollection;
     }
     
 }
