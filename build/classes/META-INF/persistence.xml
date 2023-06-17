@@ -6,6 +6,7 @@
     <class>entity.Locacao</class>
     <class>entity.Locatario</class>
     <class>entity.Tipoimovel</class>
+    <class>entity.Relatorio</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/lpoo?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

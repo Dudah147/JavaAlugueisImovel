@@ -8,7 +8,7 @@ import entity.Tipoimovel;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import jpaController.TipoimovelJpaController;
+import jpaController.TipoImovelJpaController;
 import jpaController.exceptions.IllegalOrphanException;
 import jpaController.exceptions.NonexistentEntityException;
 import jpaController.exceptions.PreexistingEntityException;
@@ -18,12 +18,12 @@ import jpaController.exceptions.PreexistingEntityException;
  * @author dudam
  */
 public class TipoimovelDAO {
-    private TipoimovelJpaController objetoJPA;
+    private TipoImovelJpaController objetoJPA;
     private EntityManagerFactory emf;
 
     public TipoimovelDAO() {
         emf = Persistence.createEntityManagerFactory("JavaAlugueisImovelPU");
-        objetoJPA = new TipoimovelJpaController(emf);
+        objetoJPA = new TipoImovelJpaController(emf);
     }
     
     public void add(Tipoimovel objeto) throws Exception{
@@ -49,16 +49,17 @@ public class TipoimovelDAO {
 
     public List<Tipoimovel> getAll(){
         return objetoJPA.findTipoimovelEntities();
+                //findTipoimovelEntities();
     }
     
     public Tipoimovel getTipoimovel(Integer id){
-        return objetoJPA.findTipoimovel(id);
+        return (Tipoimovel) objetoJPA.findTipoimovel(id);
     }
     
     /**
      * @return the objetoJPA
      */
-    public TipoimovelJpaController getObjetoJPA() {
+    public TipoImovelJpaController getObjetoJPA() {
         return objetoJPA;
     }
 

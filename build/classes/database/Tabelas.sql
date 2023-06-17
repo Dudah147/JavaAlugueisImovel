@@ -42,3 +42,9 @@ create table Locacao (
     FOREIGN KEY (idImovel) REFERENCES Imovel(idImovel) ON DELETE CASCADE,
     FOREIGN KEY (idLocatario) REFERENCES Locatario(idLocatario) ON DELETE CASCADE
 );
+
+CREATE VIEW relatorio AS
+SELECT l.idImovel, l.idLocatario, l.dataTermino, i.valorLocacao
+FROM locacao l
+JOIN imovel i ON l.idImovel = i.idImovel
+JOIN locatario lt ON l.idLocatario = lt.idLocatario;

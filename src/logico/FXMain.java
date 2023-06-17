@@ -44,19 +44,19 @@ public class FXMain extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        try {
-//            DataBaseJDBC banco = new DataBaseJDBC();
-//
-////            banco.createDB();
-//
-//            File arq = new File("src\\database\\Tabelas.sql");
-//
-//            banco.createTable(arq.readFile());
-//        } catch (ClassNotFoundException ex) {
-//            System.out.println("Falha ao se conectar ao driver " + ex.getMessage());
-//        } catch (SQLException ex) {
-//            System.out.println("Falha na criação do DB " + ex.getMessage());
-//        }
+        try {
+            DataBaseJDBC banco = new DataBaseJDBC();
+
+//            banco.createDB();
+
+            File arq = new File("src\\database\\Tabelas.sql");
+
+            banco.createTable(arq.readFile());
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Falha ao se conectar ao driver " + ex.getMessage());
+        } catch (SQLException ex) {
+            System.out.println("Falha na criação do DB " + ex.getMessage());
+        }
         
 
         launch(args);

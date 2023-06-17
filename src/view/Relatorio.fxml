@@ -1,11 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RelatorioController">
-    
-</AnchorPane>
+<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RelatorioController">
+   <left>
+      <SplitPane prefHeight="527.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+         <items>
+            <GridPane minHeight="162.0" minWidth="38.0" prefHeight="510.0" prefWidth="162.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="250.39999389648438" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="0.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="0.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="70.0" minHeight="0.0" prefHeight="35.799999999999955" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="bttnTelaImoveis" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="135.0" prefWidth="174.0" text="Imóveis" GridPane.rowIndex="1" />
+                  <Button fx:id="bttnTelaLocatario" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaLocatario" prefHeight="135.0" prefWidth="174.0" text="Locatários" GridPane.rowIndex="2" />
+                  <Button fx:id="bttnTelaRelatorio" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaRelatorio" prefHeight="135.0" prefWidth="174.0" text="Relatório" GridPane.rowIndex="3" />
+                  <ImageView fx:id="imgPrincipal" fitHeight="142.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER">
+                     <image>
+                        <Image url="@../src/imobiliaria.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+         </items>
+      </SplitPane>
+   </left>
+   <top>
+      <Pane prefHeight="55.0" prefWidth="774.0" BorderPane.alignment="CENTER" />
+   </top>
+   <right>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="169.0" layoutY="14.0" text="Relatorio">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TableView fx:id="TbLocacao" layoutY="47.0" prefHeight="426.0" prefWidth="405.0">
+               <columns>
+                  <TableColumn fx:id="IdImovel" prefWidth="59.20001143217087" text="Imovel" />
+                  <TableColumn fx:id="IdLocatario" prefWidth="70.40004348754883" text="Locatario" />
+                  <TableColumn fx:id="EncerraContrato" prefWidth="146.40000915527344" text="Encerra o Contrato" />
+                  <TableColumn fx:id="Aluguel" prefWidth="131.199951171875" text="Aluguel" />
+               </columns>
+            </TableView>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
