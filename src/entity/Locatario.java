@@ -156,7 +156,7 @@ public class Locatario implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Locatario[ idLocatario=" + idLocatario + " ]";
+        return "Nome: " + this.nome + " - CPF: " + this.cpf;
     }
     
 }

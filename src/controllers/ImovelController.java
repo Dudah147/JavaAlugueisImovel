@@ -24,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -167,6 +168,8 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private TextField inpNewTipoImovel;
     @FXML
     private FlowPane viewFlowPaneImovel;
+    @FXML
+    private Button bttnAlugarImovel;
 
     /**
      * Initializes the controller class.
@@ -410,6 +413,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
         this.bttnEditar.setDisable(false);
         this.bttnExcluir.setDisable(false);
         this.bttnVisualizar.setDisable(false);
+        this.bttnAlugarImovel.setDisable(false);
     }
 
     @FXML
@@ -554,6 +558,31 @@ public class ImovelController extends TrocaTelas implements Initializable {
 
         if (file != null) {
             this.upFoto.setText(file.getPath());
+        }
+    }
+
+    @FXML
+    public void telaAlugarImovel(ActionEvent event){
+        Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
+
+        
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AlugarImovel.fxml"));
+            Parent root = fxmlLoader.load();
+            
+            AlugarImovelController alController = (AlugarImovelController) fxmlLoader.getController();
+            
+            alController.iniciarCampos(tableImovel.getEndereco(), tableImovel.getValorLocacao());
+            
+            String css = this.getClass().getResource("/view/geral.css").toExternalForm();
+            
+            Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene sc = new Scene(root);
+            sc.getStylesheets().add(css);
+            s.setScene(sc);
+            s.show();
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 }

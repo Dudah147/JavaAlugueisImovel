@@ -35,12 +35,19 @@ create table Locacao (
     dataInicio DATE NOT NULL,
     dataTermino DATE NOT NULL,
     encerrado BOOLEAN NOT NULL,
-    formaPgto INT NOT NULL,
+    idPagamento INT NOT NULL,
     idImovel INT NOT NULL,
     idLocatario INT NOT NULL,
     PRIMARY KEY (idLocacao),
     FOREIGN KEY (idImovel) REFERENCES Imovel(idImovel) ON DELETE CASCADE,
-    FOREIGN KEY (idLocatario) REFERENCES Locatario(idLocatario) ON DELETE CASCADE
+    FOREIGN KEY (idLocatario) REFERENCES Locatario(idLocatario) ON DELETE CASCADE,
+    FOREIGN KEY (idPagamento) REFERENCES Pagamento(idPagamento) ON DELETE CASCADE
+);
+
+create table Pagamento (
+    idPagamento INT NOT NULL AUTO_INCREMENT,
+    descricao varchar(100) not null,
+    PRIMARY KEY (idPagamento)
 );
 
 CREATE VIEW relatorio AS

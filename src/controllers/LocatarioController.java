@@ -188,6 +188,7 @@ public class LocatarioController extends TrocaTelas implements Initializable {
                     this.updateBanco(event);
                     break;
                 case "delete":
+                    this.deleteBanco(event);
                     break;
             }
         } else {
@@ -222,6 +223,31 @@ public class LocatarioController extends TrocaTelas implements Initializable {
 
     @FXML
     private void bttnRemoveLocatario(ActionEvent event) {
+        
+        Locatario tableLocatario = this.tableLocatario.getSelectionModel().getSelectedItem();
+
+        try {
+            this.alertConfirmation("Deseja remover o imóvel de id " + tableLocatario.getIdLocatario() + "?", event, "delete");
+        } catch (IOException ex) {
+            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void deleteBanco(ActionEvent event) {
+        
+        Locatario tableLocatario = this.tableLocatario.getSelectionModel().getSelectedItem();
+
+       
+        try {
+            this.locatarioDados.delete(tableLocatario.getIdLocatario());
+        } catch (Exception ex) {
+            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        super.telaLocatario(event);
+        
+        this.alertInformation("Imóvel removido com sucesso!");
+
     }
 
     @FXML

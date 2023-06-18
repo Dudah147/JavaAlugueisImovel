@@ -1,42 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaPrincipalController">
-   <children>
-      <SplitPane prefHeight="400.0" prefWidth="148.0">
+<BorderPane prefHeight="527.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AlugarImovelController">
+   <left>
+      <SplitPane prefHeight="527.0" prefWidth="175.0" BorderPane.alignment="CENTER">
          <items>
-            <GridPane minWidth="38.0" prefHeight="386.0" prefWidth="172.0">
+            <GridPane minHeight="162.0" minWidth="38.0" prefHeight="510.0" prefWidth="162.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="123.60001220703126" minHeight="10.0" prefHeight="90.59998779296875" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="96.60001220703126" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="81.79999389648438" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="91.00003662109376" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="112.59995117187498" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="107.99997558593748" minHeight="10.0" prefHeight="60.99997558593748" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="250.39999389648438" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="0.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="80.0" minHeight="0.0" prefHeight="43.600006103515625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="70.0" minHeight="0.0" prefHeight="35.799999999999955" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="bttnTelaAlugarImovel" mnemonicParsing="false" onAction="#telaAlugarImovel" prefHeight="55.0" prefWidth="161.0" style="-fx-background-color: #34bef4;" text="Alugar imóvel" textFill="#f7f7f7" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Button>
-                  <Button fx:id="bttnTelaImoveis" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="55.0" prefWidth="162.0" text="Imóveis" GridPane.rowIndex="2" />
-                  <Button fx:id="bttnTelaLocatario" mnemonicParsing="false" onAction="#telaLocatario" prefHeight="55.0" prefWidth="162.0" text="Locatários" GridPane.rowIndex="3" />
-                  <Button fx:id="bttnTelaRelatorio" mnemonicParsing="false" onAction="#telaRelatorio" prefHeight="55.0" prefWidth="162.0" text="Relatório" GridPane.rowIndex="4" />
+                  <Button fx:id="bttnTelaImoveis1" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="135.0" prefWidth="174.0" style="-fx-background-color: #FF5D5D;" text="Imóveis" textFill="WHITE" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="bttnTelaLocatario1" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaLocatario" prefHeight="135.0" prefWidth="174.0" text="Locatários" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="bttnTelaRelatorio1" minHeight="43.600006103515625" mnemonicParsing="false" onAction="#telaRelatorio" prefHeight="135.0" prefWidth="174.0" text="Relatório" GridPane.rowIndex="3">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <ImageView fx:id="imgPrincipal" fitHeight="142.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@../src/imobiliaria.png" />
+                     </image>
+                  </ImageView>
                </children>
             </GridPane>
          </items>
       </SplitPane>
-      <Label layoutX="217.0" layoutY="88.0" prefHeight="18.0" prefWidth="202.0" text="ALUGAR IMOVEL" />
-   </children>
-</AnchorPane>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="21.0" prefHeight="38.0" prefWidth="595.0" text="Alugar imóvel">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+            <Label layoutX="53.0" layoutY="103.0" prefHeight="18.0" prefWidth="38.0" text="Imóvel" />
+            <TextField fx:id="inpImovel" disable="true" editable="false" layoutX="120.0" layoutY="97.0" prefHeight="30.0" prefWidth="430.0" />
+            <Label layoutX="53.0" layoutY="170.0" prefHeight="18.0" prefWidth="38.0" text="Valor" />
+            <TextField fx:id="inpValor" disable="true" editable="false" layoutX="121.0" layoutY="164.0" prefHeight="30.0" prefWidth="140.0" />
+            <Label layoutX="332.0" layoutY="170.0" prefHeight="18.0" prefWidth="57.0" text="Desconto" />
+            <TextField fx:id="inpDesconto" layoutX="410.0" layoutY="164.0" prefHeight="30.0" prefWidth="140.0" />
+            <Label layoutX="42.0" layoutY="242.0" text="Locatário" />
+            <ComboBox fx:id="inpLocatario" layoutX="121.0" layoutY="236.0" prefHeight="30.0" prefWidth="430.0" />
+            <Label layoutX="38.0" layoutY="324.0" text="Data Inicio" />
+            <Label layoutX="30.0" layoutY="393.0" text="Data Término" />
+            <DatePicker fx:id="inpDataInicio" layoutX="121.0" layoutY="317.0" prefHeight="30.0" />
+            <DatePicker fx:id="inpDataTermino" layoutX="121.0" layoutY="386.0" prefHeight="30.0" />
+            <ListView fx:id="inpFormaPgt" layoutX="350.0" layoutY="317.0" prefHeight="106.0" prefWidth="200.0" />
+            <Label layoutX="393.0" layoutY="294.0" text="Forma de pagamento" />
+            <Button fx:id="bttnAlugar" layoutX="408.0" layoutY="473.0" mnemonicParsing="false" onAction="#alugarImovel" prefHeight="26.0" prefWidth="141.0" text="Alugar" />
+            <Button layoutX="27.0" layoutY="473.0" mnemonicParsing="false" onAction="#telaImoveis" prefHeight="26.0" prefWidth="141.0" text="Escolher outro imóvel" />
+         </children></AnchorPane>
+   </center>
+</BorderPane>

@@ -65,11 +65,11 @@ public class TrocaTelas {
     @FXML
     public void telaRelatorio(ActionEvent event) { 
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("/view/Relatorio.fxml"));
+            Parent r = FXMLLoader.load(getClass().getResource("/view/Relatorio.fxml"));
             String css = this.getClass().getResource("/view/geral.css").toExternalForm();
             
             this.stage = (Stage)((Node)event.getSource()).getScene().getWindow();  
-            this.scene = new Scene(root);
+            this.scene = new Scene(r);
             this.scene.getStylesheets().add(css);
             this.stage.setScene(this.scene);
             this.stage.show();
@@ -78,4 +78,6 @@ public class TrocaTelas {
         }
         
     }
+    
+    
 }

@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/dao/LocacaoDAO.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/jpaController/LocacaoJpaController.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/jpaController/LocatarioJpaController.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/jpaController/ImovelJpaController.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/controllers/LocatarioController.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/dao/LocatarioDAO.java</file>
-            <file>file:/C:/Users/dudam/Documents/NetBeansProjects/JavaAlugueisImovel/src/logico/FXMain.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/logico/FXMain.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/ImovelController.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/LocatarioController.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/logico/TrocaTelas.java</file>
         </group>
     </open-files>
 </project-private>
