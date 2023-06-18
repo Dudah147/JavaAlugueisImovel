@@ -6,6 +6,7 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -95,5 +96,19 @@ public class DataBaseJDBC {
     public void setCon() throws SQLException {
         this.con = DriverManager.getConnection(this.url, this.user,
                 this.senha);
+    }
+    
+    public ResultSet consulta(String tabela, String where) throws SQLException{
+        if(this.flagDB == false){
+            this.setConDatabase();
+        }
+        
+        String sql = "Select * from " + tabela + " where " + where;
+                
+        Statement sessao = this.con.createStatement();
+        
+        ResultSet dados = sessao.executeQuery(sql);
+        
+        return dados;
     }
 }

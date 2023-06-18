@@ -2,36 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package dao;
 
-import entity.Tipoimovel;
+import entity.Pagamento;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import jpaController.TipoimovelJpaController;
-import jpaController.exceptions.IllegalOrphanException;
+import jpaController.PagamentoJpaController;
 import jpaController.exceptions.NonexistentEntityException;
-import jpaController.exceptions.PreexistingEntityException;
 
 /**
  *
  * @author dudam
  */
-public class TipoimovelDAO {
-    private TipoimovelJpaController objetoJPA;
+public class PagamentoDAO {
+    private PagamentoJpaController objetoJPA;
     private EntityManagerFactory emf;
 
-    public TipoimovelDAO() {
+    public PagamentoDAO() {
         emf = Persistence.createEntityManagerFactory("JavaAlugueisImovelPU");
-        objetoJPA = new TipoimovelJpaController(emf);
+        objetoJPA = new PagamentoJpaController(emf);
     }
     
-    public void add(Tipoimovel objeto) throws Exception{
+    public void add(Pagamento objeto) throws Exception{
 
         objetoJPA.create(objeto);
     }
 
-    public void edit(Tipoimovel objeto) throws Exception{
+    public void edit(Pagamento objeto) throws Exception{
         try {
             objetoJPA.edit(objeto);
         } catch (NonexistentEntityException ex) {
@@ -40,26 +38,22 @@ public class TipoimovelDAO {
     }
 
     public void delete(Integer id) throws Exception{
-        try {
-            objetoJPA.destroy(id);
-        } catch (NonexistentEntityException ex) {
-            throw new Exception("Tipoimovel " + id + " não existe.", ex);
-        }
+        objetoJPA.destroy(id);
     }
 
-    public List<Tipoimovel> getAll(){
-        return objetoJPA.findTipoimovelEntities();
+    public List<Pagamento> getAll(){
+        return objetoJPA.findPagamentoEntities();
                 //findTipoimovelEntities();
     }
     
-    public Tipoimovel getTipoimovel(Integer id){
-        return (Tipoimovel) objetoJPA.findTipoimovel(id);
+    public Pagamento getPagamento(Integer id){
+        return (Pagamento) objetoJPA.findPagamento(id);
     }
     
     /**
      * @return the objetoJPA
      */
-    public TipoimovelJpaController getObjetoJPA() {
+    public PagamentoJpaController getObjetoJPA() {
         return objetoJPA;
     }
 

@@ -49,7 +49,7 @@ public class LocacaoDAO {
         return objetoJPA.findLocacaoEntities();
     }
     
-    public Locacao getTipoimovel(Integer id){
+    public Locacao getLocacao(Integer id){
         return objetoJPA.findLocacao(id);
     }
     

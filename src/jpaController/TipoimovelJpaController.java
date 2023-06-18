@@ -23,9 +23,9 @@ import jpaController.exceptions.NonexistentEntityException;
  *
  * @author dudam
  */
-public class TipoImovelJpaController implements Serializable {
+public class TipoimovelJpaController implements Serializable {
 
-    public TipoImovelJpaController(EntityManagerFactory emf) {
+    public TipoimovelJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;

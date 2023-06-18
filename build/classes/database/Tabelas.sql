@@ -51,7 +51,9 @@ create table Pagamento (
 );
 
 CREATE VIEW relatorio AS
-SELECT l.idImovel, l.idLocatario, l.dataTermino, i.valorLocacao
+SELECT l.idImovel, l.idLocatario, lt.nome, l.dataTermino, i.valorLocacao, l.valorDesconto
 FROM locacao l
 JOIN imovel i ON l.idImovel = i.idImovel
-JOIN locatario lt ON l.idLocatario = lt.idLocatario;
+JOIN locatario lt ON l.idLocatario = lt.idLocatario
+WHERE l.encerrado=0;
+

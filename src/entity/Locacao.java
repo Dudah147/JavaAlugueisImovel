@@ -32,8 +32,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Locacao.findByValorDesconto", query = "SELECT l FROM Locacao l WHERE l.valorDesconto = :valorDesconto"),
     @NamedQuery(name = "Locacao.findByDataInicio", query = "SELECT l FROM Locacao l WHERE l.dataInicio = :dataInicio"),
     @NamedQuery(name = "Locacao.findByDataTermino", query = "SELECT l FROM Locacao l WHERE l.dataTermino = :dataTermino"),
-    @NamedQuery(name = "Locacao.findByEncerrado", query = "SELECT l FROM Locacao l WHERE l.encerrado = :encerrado"),
-    @NamedQuery(name = "Locacao.findByFormaPgto", query = "SELECT l FROM Locacao l WHERE l.formaPgto = :formaPgto")})
+    @NamedQuery(name = "Locacao.findByEncerrado", query = "SELECT l FROM Locacao l WHERE l.encerrado = :encerrado")})
 public class Locacao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,15 +55,15 @@ public class Locacao implements Serializable {
     @Basic(optional = false)
     @Column(name = "encerrado")
     private boolean encerrado;
-    @Basic(optional = false)
-    @Column(name = "formaPgto")
-    private int formaPgto;
     @JoinColumn(name = "idImovel", referencedColumnName = "idImovel")
     @ManyToOne(optional = false)
     private Imovel idImovel;
     @JoinColumn(name = "idLocatario", referencedColumnName = "idLocatario")
     @ManyToOne(optional = false)
     private Locatario idLocatario;
+    @JoinColumn(name = "idPagamento", referencedColumnName = "idPagamento")
+    @ManyToOne(optional = false)
+    private Pagamento idPagamento;
 
     public Locacao() {
     }
@@ -73,13 +72,12 @@ public class Locacao implements Serializable {
         this.idLocacao = idLocacao;
     }
 
-    public Locacao(Integer idLocacao, double valorDesconto, Date dataInicio, Date dataTermino, boolean encerrado, int formaPgto) {
+    public Locacao(Integer idLocacao, double valorDesconto, Date dataInicio, Date dataTermino, boolean encerrado) {
         this.idLocacao = idLocacao;
         this.valorDesconto = valorDesconto;
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
         this.encerrado = encerrado;
-        this.formaPgto = formaPgto;
     }
 
     public Integer getIdLocacao() {
@@ -122,14 +120,6 @@ public class Locacao implements Serializable {
         this.encerrado = encerrado;
     }
 
-    public int getFormaPgto() {
-        return formaPgto;
-    }
-
-    public void setFormaPgto(int formaPgto) {
-        this.formaPgto = formaPgto;
-    }
-
     public Imovel getIdImovel() {
         return idImovel;
     }
@@ -144,6 +134,14 @@ public class Locacao implements Serializable {
 
     public void setIdLocatario(Locatario idLocatario) {
         this.idLocatario = idLocatario;
+    }
+
+    public Pagamento getIdPagamento() {
+        return idPagamento;
+    }
+
+    public void setIdPagamento(Pagamento idPagamento) {
+        this.idPagamento = idPagamento;
     }
 
     @Override

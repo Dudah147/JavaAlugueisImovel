@@ -3,11 +3,11 @@
   <persistence-unit name="JavaAlugueisImovelPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entity.Imovel</class>
-    <class>entity.Locacao</class>
     <class>entity.Locatario</class>
     <class>entity.Tipoimovel</class>
     <class>entity.Relatorio</class>
     <class>entity.Pagamento</class>
+    <class>entity.Locacao</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/lpoo?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

@@ -4,9 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/logico/FXMain.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/RelatorioController.java</file>
             <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/ImovelController.java</file>
             <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/LocatarioController.java</file>
-            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/logico/TrocaTelas.java</file>
+            <file>file:/C:/Users/dudam/OneDrive/Documentos/NetBeansProjects/JavaAlugueisImovel/src/controllers/AlugarImovelController.java</file>
         </group>
     </open-files>
 </project-private>

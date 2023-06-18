@@ -5,17 +5,21 @@
 package controllers;
 
 import DAO.ImovelDAO;
+import DAO.LocacaoDAO;
 import DAO.TipoimovelDAO;
+import database.DataBaseJDBC;
 import entity.Imovel;
 import entity.Tipoimovel;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,8 +35,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -46,7 +50,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import logico.TrocaTelas;
 
 /**
@@ -74,6 +77,8 @@ public class ImovelController extends TrocaTelas implements Initializable {
     @FXML
     private TableColumn<Imovel, Double> valor;
     @FXML
+    private TableColumn<Imovel, String> disponivel;
+    @FXML
     private AnchorPane viewImoveis;
     @FXML
     private AnchorPane viewCadastroImovel;
@@ -95,8 +100,6 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private Button btnAddTipoImovel;
     @FXML
     private TextField inpFoto;
-    @FXML
-    private Button bttnTelaImoveis1;
     @FXML
     private Button bttnTelaLocatario1;
     @FXML
@@ -170,12 +173,17 @@ public class ImovelController extends TrocaTelas implements Initializable {
     private FlowPane viewFlowPaneImovel;
     @FXML
     private Button bttnAlugarImovel;
+    @FXML
+    private Button bttnTelaImoveis;
+    @FXML
+    private Button bttnRemoverLocatario;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.flag_new_timovel = false;
 
         //Adiciona restrição de caracteres
         this.doubleField(this.inpMetragem);
@@ -212,6 +220,17 @@ public class ImovelController extends TrocaTelas implements Initializable {
         this.endereco.setCellValueFactory(new PropertyValueFactory<>("endereco"));
         this.metragem.setCellValueFactory(new PropertyValueFactory<>("metragem"));
         this.valor.setCellValueFactory(new PropertyValueFactory<>("valorLocacao"));
+        this.disponivel.setCellValueFactory(cellData -> {
+            boolean v = cellData.getValue().getAlocado();
+            String s;
+            if (v == true) {
+                s = "Não";
+            } else {
+                s = "Sim";
+            }
+
+            return new ReadOnlyStringWrapper(s);
+        });
 
         this.tableImovel.setItems(listaObs);
     }
@@ -275,6 +294,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
         objImovel.setValorLocacao(Double.parseDouble(this.inpValor.getText()));
         objImovel.setFotoImovel(this.inpFoto.getText());
         objImovel.setDescricaoDependencias(this.inpDescricao.getText());
+        objImovel.setAlocado(false);
 
         if (!this.flag_new_timovel) {
             objImovel.setIdTipoImovel(this.inpTipoImovel.getValue());
@@ -328,12 +348,10 @@ public class ImovelController extends TrocaTelas implements Initializable {
         objImovel.setDescricaoDependencias(this.upDescricao.getText());
 
         objImovel.setIdTipoImovel(this.upTipoImovel.getValue());
-        
+
         try {
             ImovelDAO imovelDAO = new ImovelDAO();
             imovelDAO.edit(objImovel);
-            this.listaObs.clear();
-            this.listaObs.addAll(imovelDAO.getAll());
 
             super.telaImoveis(event);
 
@@ -381,8 +399,8 @@ public class ImovelController extends TrocaTelas implements Initializable {
                 || this.inpFoto.getText().isEmpty()
                 || this.inpMetragem.getText().isEmpty()
                 || this.inpQuartos.getText().isEmpty()
-                || ((this.inpTipoImovel.getSelectionModel().getSelectedItem() == null) && (!this.flag_new_timovel))
-                || ((this.inpNewTipoImovel != null) && (this.inpNewTipoImovel.getText().isEmpty()))
+                || ((this.inpTipoImovel.getSelectionModel().getSelectedItem() == null) && (this.flag_new_timovel == false))
+                || (this.flag_new_timovel == true && this.inpNewTipoImovel.getText().isEmpty())
                 || this.inpValor.getText().isEmpty()) {
 
             alerta = new Alert(Alert.AlertType.ERROR);
@@ -433,6 +451,16 @@ public class ImovelController extends TrocaTelas implements Initializable {
 
         ImovelDAO imovelDao = new ImovelDAO();
         try {
+
+            DataBaseJDBC banco = new DataBaseJDBC();
+
+            ResultSet dados = banco.consulta("locacao", "idImovel = " + tableImovel.getIdImovel());
+
+            if (dados.next()) {
+                LocacaoDAO locacaoD = new LocacaoDAO();
+                locacaoD.delete(dados.getInt(1));
+            }
+
             imovelDao.delete(tableImovel.getIdImovel());
         } catch (Exception ex) {
             Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
@@ -466,6 +494,10 @@ public class ImovelController extends TrocaTelas implements Initializable {
         this.upFoto.setText(tableImovel.getFotoImovel());
 
         this.upTipoImovel.getSelectionModel().select(tableImovel.getIdTipoImovel());
+        
+        if(tableImovel.getAlocado() == false){
+            this.bttnRemoverLocatario.setDisable(true);
+        }
     }
 
     @FXML
@@ -515,7 +547,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
         this.viewValor.setText(String.valueOf(tableImovel.getValorLocacao()));
         this.viewTipoImovel.setText(tableImovel.getIdTipoImovel().getDescricao());
 
-        if (tableImovel.getAlocado().TRUE) {
+        if (tableImovel.getAlocado() == true) {
             this.viewLocado.setText("Sim");
         } else {
             this.viewLocado.setText("Não");
@@ -562,27 +594,74 @@ public class ImovelController extends TrocaTelas implements Initializable {
     }
 
     @FXML
-    public void telaAlugarImovel(ActionEvent event){
+    public void telaAlugarImovel(ActionEvent event) {
         Imovel tableImovel = this.tableImovel.getSelectionModel().getSelectedItem();
 
+        if (tableImovel.getAlocado() == false) {
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AlugarImovel.fxml"));
+                Parent root = fxmlLoader.load();
+
+                AlugarImovelController alController = (AlugarImovelController) fxmlLoader.getController();
+
+                alController.iniciarCampos(tableImovel);
+
+                String css = this.getClass().getResource("/view/geral.css").toExternalForm();
+
+                Stage s = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene sc = new Scene(root);
+                sc.getStylesheets().add(css);
+                s.setScene(sc);
+                s.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Imóvel já alocado, por favor escolha outro imóvel ou edite a disponibilidade deste imóvel!");
+            alerta.showAndWait();
+        }
+    }
+
+    @FXML
+    private void removerLocatario(ActionEvent event) {
         
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AlugarImovel.fxml"));
-            Parent root = fxmlLoader.load();
+        Imovel tbI = this.tableImovel.getSelectionModel().getSelectedItem();
+
+        try {
+
+            DataBaseJDBC banco = new DataBaseJDBC();
+
+            ResultSet dados = banco.consulta("locacao", "idImovel = " + tbI.getIdImovel());
+
+            if (dados.next()) {
+                ImovelDAO imovelD = new ImovelDAO();
+                tbI.setAlocado(false);
+                imovelD.edit(tbI);
+                System.out.println(tbI);
+                
+                LocacaoDAO locacaoD = new LocacaoDAO();
+                locacaoD.delete(dados.getInt(1));
+                
+                
+                super.telaImoveis(event);
+
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Locatário removido com sucesso!");
+                alerta.showAndWait();
+            } else{
+                System.out.println("Locatario nao encontrado");
+            }
             
-            AlugarImovelController alController = (AlugarImovelController) fxmlLoader.getController();
             
-            alController.iniciarCampos(tableImovel.getEndereco(), tableImovel.getValorLocacao());
-            
-            String css = this.getClass().getResource("/view/geral.css").toExternalForm();
-            
-            Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene sc = new Scene(root);
-            sc.getStylesheets().add(css);
-            s.setScene(sc);
-            s.show();
-        }catch(IOException e){
-            e.printStackTrace();
+
+        } catch (Exception ex) {
+            Logger.getLogger(ImovelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

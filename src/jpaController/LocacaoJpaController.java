@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import entity.Imovel;
 import entity.Locacao;
 import entity.Locatario;
+import entity.Pagamento;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -47,6 +48,11 @@ public class LocacaoJpaController implements Serializable {
                 idLocatario = em.getReference(idLocatario.getClass(), idLocatario.getIdLocatario());
                 locacao.setIdLocatario(idLocatario);
             }
+            Pagamento idPagamento = locacao.getIdPagamento();
+            if (idPagamento != null) {
+                idPagamento = em.getReference(idPagamento.getClass(), idPagamento.getIdPagamento());
+                locacao.setIdPagamento(idPagamento);
+            }
             em.persist(locacao);
             if (idImovel != null) {
                 idImovel.getLocacaoCollection().add(locacao);
@@ -55,6 +61,10 @@ public class LocacaoJpaController implements Serializable {
             if (idLocatario != null) {
                 idLocatario.getLocacaoCollection().add(locacao);
                 idLocatario = em.merge(idLocatario);
+            }
+            if (idPagamento != null) {
+                idPagamento.getLocacaoCollection().add(locacao);
+                idPagamento = em.merge(idPagamento);
             }
             em.getTransaction().commit();
         } finally {
@@ -74,6 +84,8 @@ public class LocacaoJpaController implements Serializable {
             Imovel idImovelNew = locacao.getIdImovel();
             Locatario idLocatarioOld = persistentLocacao.getIdLocatario();
             Locatario idLocatarioNew = locacao.getIdLocatario();
+            Pagamento idPagamentoOld = persistentLocacao.getIdPagamento();
+            Pagamento idPagamentoNew = locacao.getIdPagamento();
             if (idImovelNew != null) {
                 idImovelNew = em.getReference(idImovelNew.getClass(), idImovelNew.getIdImovel());
                 locacao.setIdImovel(idImovelNew);
@@ -81,6 +93,10 @@ public class LocacaoJpaController implements Serializable {
             if (idLocatarioNew != null) {
                 idLocatarioNew = em.getReference(idLocatarioNew.getClass(), idLocatarioNew.getIdLocatario());
                 locacao.setIdLocatario(idLocatarioNew);
+            }
+            if (idPagamentoNew != null) {
+                idPagamentoNew = em.getReference(idPagamentoNew.getClass(), idPagamentoNew.getIdPagamento());
+                locacao.setIdPagamento(idPagamentoNew);
             }
             locacao = em.merge(locacao);
             if (idImovelOld != null && !idImovelOld.equals(idImovelNew)) {
@@ -98,6 +114,14 @@ public class LocacaoJpaController implements Serializable {
             if (idLocatarioNew != null && !idLocatarioNew.equals(idLocatarioOld)) {
                 idLocatarioNew.getLocacaoCollection().add(locacao);
                 idLocatarioNew = em.merge(idLocatarioNew);
+            }
+            if (idPagamentoOld != null && !idPagamentoOld.equals(idPagamentoNew)) {
+                idPagamentoOld.getLocacaoCollection().remove(locacao);
+                idPagamentoOld = em.merge(idPagamentoOld);
+            }
+            if (idPagamentoNew != null && !idPagamentoNew.equals(idPagamentoOld)) {
+                idPagamentoNew.getLocacaoCollection().add(locacao);
+                idPagamentoNew = em.merge(idPagamentoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -137,6 +161,11 @@ public class LocacaoJpaController implements Serializable {
             if (idLocatario != null) {
                 idLocatario.getLocacaoCollection().remove(locacao);
                 idLocatario = em.merge(idLocatario);
+            }
+            Pagamento idPagamento = locacao.getIdPagamento();
+            if (idPagamento != null) {
+                idPagamento.getLocacaoCollection().remove(locacao);
+                idPagamento = em.merge(idPagamento);
             }
             em.remove(locacao);
             em.getTransaction().commit();

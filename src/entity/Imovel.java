@@ -202,7 +202,9 @@ public class Imovel implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Imovel[ idImovel=" + idImovel + " ]";
+        return "Imovel{" + "idImovel=" + idImovel + ", endereco=" + endereco + ", metragem=" + metragem + ", quantQuartos=" + quantQuartos + ", quantBanheiros=" + quantBanheiros + ", descricaoDependencias=" + descricaoDependencias + ", valorLocacao=" + valorLocacao + ", fotoImovel=" + fotoImovel + ", alocado=" + alocado + ", idTipoImovel=" + idTipoImovel + ", locacaoCollection=" + locacaoCollection + '}';
     }
+
+    
     
 }
