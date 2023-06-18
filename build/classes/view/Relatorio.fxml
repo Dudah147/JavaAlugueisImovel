@@ -43,26 +43,21 @@
          </items>
       </SplitPane>
    </left>
-   <top>
-      <Pane prefHeight="55.0" prefWidth="774.0" BorderPane.alignment="CENTER" />
-   </top>
-   <right>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </right>
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="510.0" prefWidth="598.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="169.0" layoutY="14.0" text="Relatorio">
+            <Label layoutX="268.0" layoutY="24.0" text="Relatorio">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <TableView fx:id="TbLocacao" layoutY="47.0" prefHeight="426.0" prefWidth="405.0">
+            <TableView fx:id="TbLocacao" layoutX="58.0" layoutY="63.0" prefHeight="426.0" prefWidth="482.0">
                <columns>
                   <TableColumn fx:id="IdImovel" prefWidth="59.20001143217087" text="Imovel" />
                   <TableColumn fx:id="IdLocatario" prefWidth="70.40004348754883" text="Locatario" />
-                  <TableColumn fx:id="EncerraContrato" prefWidth="146.40000915527344" text="Encerra o Contrato" />
-                  <TableColumn fx:id="Aluguel" prefWidth="131.199951171875" text="Aluguel" />
+                  <TableColumn fx:id="Nome" prefWidth="95.19999694824219" text="Nome" />
+                  <TableColumn fx:id="EncerraContrato" prefWidth="162.39996337890625" text="Encerra o Contrato" />
+                  <TableColumn fx:id="Aluguel" prefWidth="95.20001220703125" text="Aluguel" />
                </columns>
             </TableView>
          </children>

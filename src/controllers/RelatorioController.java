@@ -50,6 +50,8 @@ public class RelatorioController extends TrocaTelas implements Initializable {
     @FXML
     private TableColumn<Relatorio, Double> Aluguel;
     private List<Relatorio> resultados ;
+    @FXML
+    private TableColumn<Relatorio, String> Nome;
 
     /**
      * Initializes the controller class.
@@ -66,6 +68,7 @@ public class RelatorioController extends TrocaTelas implements Initializable {
         this.IdImovel.setCellValueFactory(new PropertyValueFactory<>("idImovel"));
         this.EncerraContrato.setCellValueFactory(new PropertyValueFactory<>("dataTermino"));
         this.Aluguel.setCellValueFactory(new PropertyValueFactory<>("valorLocacao")); 
+        this.Nome.setCellValueFactory(new PropertyValueFactory<>("nome")); 
     }
     private void atualizarTabela(){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JavaAlugueisImovelPU");
