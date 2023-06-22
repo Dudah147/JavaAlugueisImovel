@@ -7,7 +7,6 @@ package entity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,9 +29,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Pagamento.findByDescricao", query = "SELECT p FROM Pagamento p WHERE p.descricao = :descricao")})
 public class Pagamento implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPagamento")
-    private Collection<Locacao> locacaoCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +38,8 @@ public class Pagamento implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
+    @OneToMany(mappedBy = "idPagamento")
+    private Collection<Locacao> locacaoCollection;
 
     public Pagamento() {
     }
@@ -71,6 +69,14 @@ public class Pagamento implements Serializable {
         this.descricao = descricao;
     }
 
+    public Collection<Locacao> getLocacaoCollection() {
+        return locacaoCollection;
+    }
+
+    public void setLocacaoCollection(Collection<Locacao> locacaoCollection) {
+        this.locacaoCollection = locacaoCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -94,14 +100,6 @@ public class Pagamento implements Serializable {
     @Override
     public String toString() {
         return this.descricao;
-    }
-
-    public Collection<Locacao> getLocacaoCollection() {
-        return locacaoCollection;
-    }
-
-    public void setLocacaoCollection(Collection<Locacao> locacaoCollection) {
-        this.locacaoCollection = locacaoCollection;
     }
     
 }

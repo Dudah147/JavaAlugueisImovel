@@ -345,6 +345,7 @@ public class ImovelController extends TrocaTelas implements Initializable {
         objImovel.setQuantBanheiros(Integer.parseInt(this.upBanheiros.getText()));
         objImovel.setValorLocacao(Double.parseDouble(this.upValor.getText()));
         objImovel.setFotoImovel(this.upFoto.getText());
+        objImovel.setAlocado(false);
         objImovel.setDescricaoDependencias(this.upDescricao.getText());
 
         objImovel.setIdTipoImovel(this.upTipoImovel.getValue());

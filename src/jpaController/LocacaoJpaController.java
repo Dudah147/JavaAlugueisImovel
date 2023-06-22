@@ -55,12 +55,7 @@ public class LocacaoJpaController implements Serializable {
             }
             em.persist(locacao);
             if (idImovel != null) {
-                idImovel.getLocacaoCollection().add(locacao);
                 idImovel = em.merge(idImovel);
-            }
-            if (idLocatario != null) {
-                idLocatario.getLocacaoCollection().add(locacao);
-                idLocatario = em.merge(idLocatario);
             }
             if (idPagamento != null) {
                 idPagamento.getLocacaoCollection().add(locacao);
@@ -100,21 +95,13 @@ public class LocacaoJpaController implements Serializable {
             }
             locacao = em.merge(locacao);
             if (idImovelOld != null && !idImovelOld.equals(idImovelNew)) {
-                idImovelOld.getLocacaoCollection().remove(locacao);
                 idImovelOld = em.merge(idImovelOld);
             }
             if (idImovelNew != null && !idImovelNew.equals(idImovelOld)) {
-                idImovelNew.getLocacaoCollection().add(locacao);
                 idImovelNew = em.merge(idImovelNew);
             }
-            if (idLocatarioOld != null && !idLocatarioOld.equals(idLocatarioNew)) {
-                idLocatarioOld.getLocacaoCollection().remove(locacao);
-                idLocatarioOld = em.merge(idLocatarioOld);
-            }
-            if (idLocatarioNew != null && !idLocatarioNew.equals(idLocatarioOld)) {
-                idLocatarioNew.getLocacaoCollection().add(locacao);
-                idLocatarioNew = em.merge(idLocatarioNew);
-            }
+
+
             if (idPagamentoOld != null && !idPagamentoOld.equals(idPagamentoNew)) {
                 idPagamentoOld.getLocacaoCollection().remove(locacao);
                 idPagamentoOld = em.merge(idPagamentoOld);
@@ -154,14 +141,10 @@ public class LocacaoJpaController implements Serializable {
             }
             Imovel idImovel = locacao.getIdImovel();
             if (idImovel != null) {
-                idImovel.getLocacaoCollection().remove(locacao);
                 idImovel = em.merge(idImovel);
             }
             Locatario idLocatario = locacao.getIdLocatario();
-            if (idLocatario != null) {
-                idLocatario.getLocacaoCollection().remove(locacao);
-                idLocatario = em.merge(idLocatario);
-            }
+
             Pagamento idPagamento = locacao.getIdPagamento();
             if (idPagamento != null) {
                 idPagamento.getLocacaoCollection().remove(locacao);

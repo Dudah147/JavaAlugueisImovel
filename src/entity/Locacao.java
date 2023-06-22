@@ -56,13 +56,13 @@ public class Locacao implements Serializable {
     @Column(name = "encerrado")
     private boolean encerrado;
     @JoinColumn(name = "idImovel", referencedColumnName = "idImovel")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Imovel idImovel;
     @JoinColumn(name = "idLocatario", referencedColumnName = "idLocatario")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Locatario idLocatario;
     @JoinColumn(name = "idPagamento", referencedColumnName = "idPagamento")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Pagamento idPagamento;
 
     public Locacao() {

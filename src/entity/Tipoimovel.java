@@ -7,7 +7,6 @@ package entity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +38,7 @@ public class Tipoimovel implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoImovel")
+    @OneToMany(mappedBy = "idTipoImovel")
     private Collection<Imovel> imovelCollection;
 
     public Tipoimovel() {

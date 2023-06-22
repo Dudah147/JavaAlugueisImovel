@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,8 +58,7 @@ public class Locatario implements Serializable {
     @Basic(optional = false)
     @Column(name = "contaBancaria")
     private String contaBancaria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLocatario")
-    private Collection<Locacao> locacaoCollection;
+
 
     public Locatario() {
     }
@@ -126,13 +124,6 @@ public class Locatario implements Serializable {
         this.contaBancaria = contaBancaria;
     }
 
-    public Collection<Locacao> getLocacaoCollection() {
-        return locacaoCollection;
-    }
-
-    public void setLocacaoCollection(Collection<Locacao> locacaoCollection) {
-        this.locacaoCollection = locacaoCollection;
-    }
 
     @Override
     public int hashCode() {

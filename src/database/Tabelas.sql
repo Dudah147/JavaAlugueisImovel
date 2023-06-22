@@ -14,10 +14,10 @@ create table Imovel (
     valorLocacao DOUBLE NOT NULL,
     fotoImovel VARCHAR(500) NOT NULL,
     alocado BOOLEAN DEFAULT false,
-    idTipoImovel INT NOT NULL,
+    idTipoImovel INT,
     PRIMARY KEY (idImovel),
     FOREIGN KEY (idTipoImovel)
-    REFERENCES TipoImovel(idTipoImovel) ON DELETE CASCADE);
+    REFERENCES TipoImovel(idTipoImovel));
 
 create table Locatario (
     idLocatario INT NOT NULL AUTO_INCREMENT,
@@ -28,6 +28,11 @@ create table Locatario (
     contaBancaria VARCHAR(150) NOT NULL,
     PRIMARY KEY (idLocatario));
 
+create table Pagamento (
+    idPagamento INT NOT NULL AUTO_INCREMENT,
+    descricao varchar(100) not null,
+    PRIMARY KEY (idPagamento)
+);
 
 create table Locacao (
     idLocacao INT NOT NULL AUTO_INCREMENT,
@@ -35,20 +40,16 @@ create table Locacao (
     dataInicio DATE NOT NULL,
     dataTermino DATE NOT NULL,
     encerrado BOOLEAN NOT NULL,
-    idPagamento INT NOT NULL,
-    idImovel INT NOT NULL,
-    idLocatario INT NOT NULL,
+    idPagamento INT,
+    idImovel INT,
+    idLocatario INT,
     PRIMARY KEY (idLocacao),
-    FOREIGN KEY (idImovel) REFERENCES Imovel(idImovel) ON DELETE CASCADE,
-    FOREIGN KEY (idLocatario) REFERENCES Locatario(idLocatario) ON DELETE CASCADE,
-    FOREIGN KEY (idPagamento) REFERENCES Pagamento(idPagamento) ON DELETE CASCADE
+    FOREIGN KEY (idImovel) REFERENCES Imovel(idImovel),
+    FOREIGN KEY (idLocatario) REFERENCES Locatario(idLocatario),
+    FOREIGN KEY (idPagamento) REFERENCES Pagamento(idPagamento)
 );
 
-create table Pagamento (
-    idPagamento INT NOT NULL AUTO_INCREMENT,
-    descricao varchar(100) not null,
-    PRIMARY KEY (idPagamento)
-);
+
 
 CREATE VIEW relatorio AS
 SELECT l.idImovel, l.idLocatario, lt.nome, l.dataTermino, i.valorLocacao, l.valorDesconto
@@ -56,4 +57,12 @@ FROM locacao l
 JOIN imovel i ON l.idImovel = i.idImovel
 JOIN locatario lt ON l.idLocatario = lt.idLocatario
 WHERE l.encerrado=0;
+
+insert into pagamento (descricao) values
+('CARTAO DE CREDITO'),
+('DINHEIRO'),
+('BOLETO'),
+('DEPOSITO'),
+('CONVENIO');
+
 

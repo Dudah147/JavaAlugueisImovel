@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import jpaController.exceptions.IllegalOrphanException;
 import jpaController.exceptions.NonexistentEntityException;
 
 /**
@@ -66,7 +65,7 @@ public class TipoimovelJpaController implements Serializable {
         }
     }
 
-    public void edit(Tipoimovel tipoimovel) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Tipoimovel tipoimovel) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -74,18 +73,6 @@ public class TipoimovelJpaController implements Serializable {
             Tipoimovel persistentTipoimovel = em.find(Tipoimovel.class, tipoimovel.getIdTipoImovel());
             Collection<Imovel> imovelCollectionOld = persistentTipoimovel.getImovelCollection();
             Collection<Imovel> imovelCollectionNew = tipoimovel.getImovelCollection();
-            List<String> illegalOrphanMessages = null;
-            for (Imovel imovelCollectionOldImovel : imovelCollectionOld) {
-                if (!imovelCollectionNew.contains(imovelCollectionOldImovel)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Imovel " + imovelCollectionOldImovel + " since its idTipoImovel field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Collection<Imovel> attachedImovelCollectionNew = new ArrayList<Imovel>();
             for (Imovel imovelCollectionNewImovelToAttach : imovelCollectionNew) {
                 imovelCollectionNewImovelToAttach = em.getReference(imovelCollectionNewImovelToAttach.getClass(), imovelCollectionNewImovelToAttach.getIdImovel());
@@ -94,6 +81,12 @@ public class TipoimovelJpaController implements Serializable {
             imovelCollectionNew = attachedImovelCollectionNew;
             tipoimovel.setImovelCollection(imovelCollectionNew);
             tipoimovel = em.merge(tipoimovel);
+            for (Imovel imovelCollectionOldImovel : imovelCollectionOld) {
+                if (!imovelCollectionNew.contains(imovelCollectionOldImovel)) {
+                    imovelCollectionOldImovel.setIdTipoImovel(null);
+                    imovelCollectionOldImovel = em.merge(imovelCollectionOldImovel);
+                }
+            }
             for (Imovel imovelCollectionNewImovel : imovelCollectionNew) {
                 if (!imovelCollectionOld.contains(imovelCollectionNewImovel)) {
                     Tipoimovel oldIdTipoImovelOfImovelCollectionNewImovel = imovelCollectionNewImovel.getIdTipoImovel();
@@ -122,7 +115,7 @@ public class TipoimovelJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -134,16 +127,10 @@ public class TipoimovelJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The tipoimovel with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            Collection<Imovel> imovelCollectionOrphanCheck = tipoimovel.getImovelCollection();
-            for (Imovel imovelCollectionOrphanCheckImovel : imovelCollectionOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Tipoimovel (" + tipoimovel + ") cannot be destroyed since the Imovel " + imovelCollectionOrphanCheckImovel + " in its imovelCollection field has a non-nullable idTipoImovel field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            Collection<Imovel> imovelCollection = tipoimovel.getImovelCollection();
+            for (Imovel imovelCollectionImovel : imovelCollection) {
+                imovelCollectionImovel.setIdTipoImovel(null);
+                imovelCollectionImovel = em.merge(imovelCollectionImovel);
             }
             em.remove(tipoimovel);
             em.getTransaction().commit();

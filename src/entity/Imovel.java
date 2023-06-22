@@ -7,7 +7,6 @@ package entity;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -69,10 +68,9 @@ public class Imovel implements Serializable {
     @Column(name = "alocado")
     private Boolean alocado;
     @JoinColumn(name = "idTipoImovel", referencedColumnName = "idTipoImovel")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Tipoimovel idTipoImovel;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idImovel")
-    private Collection<Locacao> locacaoCollection;
+
 
     public Imovel() {
     }
@@ -172,13 +170,7 @@ public class Imovel implements Serializable {
         this.idTipoImovel = idTipoImovel;
     }
 
-    public Collection<Locacao> getLocacaoCollection() {
-        return locacaoCollection;
-    }
 
-    public void setLocacaoCollection(Collection<Locacao> locacaoCollection) {
-        this.locacaoCollection = locacaoCollection;
-    }
 
     @Override
     public int hashCode() {
@@ -202,9 +194,7 @@ public class Imovel implements Serializable {
 
     @Override
     public String toString() {
-        return "Imovel{" + "idImovel=" + idImovel + ", endereco=" + endereco + ", metragem=" + metragem + ", quantQuartos=" + quantQuartos + ", quantBanheiros=" + quantBanheiros + ", descricaoDependencias=" + descricaoDependencias + ", valorLocacao=" + valorLocacao + ", fotoImovel=" + fotoImovel + ", alocado=" + alocado + ", idTipoImovel=" + idTipoImovel + ", locacaoCollection=" + locacaoCollection + '}';
+        return "entity.Imovel[ idImovel=" + idImovel + " ]";
     }
-
-    
     
 }
